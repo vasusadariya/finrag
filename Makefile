@@ -41,4 +41,4 @@ db-local-stop:
 	scripts/dev-postgres.sh stop
 
 migrate-up:
-	cd ingest-go && go run github.com/golang-migrate/migrate/v4/cmd/migrate -path ../db/migrations -database "$${DATABASE_URL:-postgres://finrag:finrag@localhost:5432/finrag?sslmode=disable}" up
+	cd ingest-go && go run -tags "postgres file" github.com/golang-migrate/migrate/v4/cmd/migrate -path ../db/migrations -database "$${DATABASE_URL:-postgres://finrag:finrag@localhost:5432/finrag?sslmode=disable}" up
