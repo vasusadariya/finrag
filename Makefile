@@ -1,4 +1,4 @@
-.PHONY: db-local db-local-stop lint lint-py lint-go test test-py test-go fmt up down ingest eval
+.PHONY: migrate-up db-local db-local-stop lint lint-py lint-go test test-py test-go fmt up down ingest eval
 
 lint: lint-py lint-go
 
@@ -39,3 +39,6 @@ db-local:
 
 db-local-stop:
 	scripts/dev-postgres.sh stop
+
+migrate-up:
+	cd ingest-go && go run github.com/golang-migrate/migrate/v4/cmd/migrate -path ../db/migrations -database "$${DATABASE_URL:-postgres://finrag:finrag@localhost:5432/finrag?sslmode=disable}" up
