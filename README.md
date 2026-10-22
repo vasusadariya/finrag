@@ -13,4 +13,4 @@ Status: under construction (Phase 1, foundation). See the build plan in `docs/`.
 `db/migrations/` schema, `eval/` datasets and reports, `frontend/` Next.js UI, `infra/terraform/`.
 
 ## Dev
-`make lint`, `make test`
+`make lint`, `make test`. Database: `make up` (Docker) or `make db-local` (no Docker; needs apt `postgresql-16` + `postgresql-16-pgvector`).

@@ -1,4 +1,4 @@
-.PHONY: lint lint-py lint-go test test-py test-go fmt up down ingest eval
+.PHONY: db-local db-local-stop lint lint-py lint-go test test-py test-go fmt up down ingest eval
 
 lint: lint-py lint-go
 
@@ -33,3 +33,9 @@ ingest:
 
 eval:
 	@echo "not implemented until step 3.13"; exit 1
+
+db-local:
+	scripts/dev-postgres.sh start
+
+db-local-stop:
+	scripts/dev-postgres.sh stop
