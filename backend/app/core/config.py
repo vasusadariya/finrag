@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     openrouter_api_key: str | None = None
 
     log_level: str = "INFO"
+    # minimum retrieval confidence (0-1) to answer instead of refusing; tuned on the eval set
+    confidence_threshold: float = Field(default=0.5, ge=0.0, le=1.0)
 
     def require_llm_key(self) -> str:
         """Return the primary LLM key or fail with a clear message."""

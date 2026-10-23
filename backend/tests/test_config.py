@@ -45,3 +45,15 @@ def test_require_llm_key(monkeypatch: pytest.MonkeyPatch) -> None:
         s.require_llm_key()
     monkeypatch.setenv("GEMINI_API_KEY", "k")
     assert Settings(_env_file=None).require_llm_key() == "k"  # type: ignore[call-arg]
+
+
+def test_confidence_threshold_default_and_bounds(monkeypatch: pytest.MonkeyPatch) -> None:
+    _clear(monkeypatch)
+    for k, v in REQUIRED.items():
+        monkeypatch.setenv(k, v)
+    assert Settings(_env_file=None).confidence_threshold == 0.5  # type: ignore[call-arg]
+    monkeypatch.setenv("CONFIDENCE_THRESHOLD", "0.8")
+    assert Settings(_env_file=None).confidence_threshold == 0.8  # type: ignore[call-arg]
+    monkeypatch.setenv("CONFIDENCE_THRESHOLD", "1.5")
+    with pytest.raises(ValidationError):
+        Settings(_env_file=None)  # type: ignore[call-arg]
