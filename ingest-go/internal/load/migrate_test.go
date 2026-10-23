@@ -27,14 +27,20 @@ func adminURL() string {
 // scratchDB creates an empty database, skipping the test if Postgres is unreachable.
 func scratchDB(t *testing.T) (dbURL string, db *sql.DB) {
 	t.Helper()
+	unavailable := func(err error) {
+		if os.Getenv("FINRAG_REQUIRE_DB") != "" {
+			t.Fatalf("postgres required but unavailable: %v", err)
+		}
+		t.Skipf("postgres unavailable (set FINRAG_REQUIRE_DB=1 to fail instead): %v", err)
+	}
 	admin, err := sql.Open("pgx", adminURL())
 	if err != nil {
-		t.Skipf("postgres unavailable: %v", err)
+		unavailable(err)
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	if err := admin.PingContext(ctx); err != nil {
-		t.Skipf("postgres unavailable: %v", err)
+		unavailable(err)
 	}
 	name := fmt.Sprintf("finrag_test_%d", time.Now().UnixNano())
 	if _, err := admin.Exec("CREATE DATABASE " + name); err != nil {
