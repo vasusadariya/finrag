@@ -25,7 +25,7 @@ class Filters:
         object.__setattr__(self, "tickers", tuple(t.upper() for t in self.tickers))
 
     def to_sql(self, alias: str = "c") -> tuple[str, list[object]]:
-        """Return (' AND ...' fragment, params) using psycopg %s placeholders. Never interpolates values."""
+        """Return (" AND ..." fragment, params) using %s placeholders; values are never inlined."""
         clauses: list[str] = []
         params: list[object] = []
         if self.tickers:
