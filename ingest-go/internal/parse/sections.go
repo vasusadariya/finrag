@@ -1,6 +1,7 @@
 package parse
 
 import (
+	"fmt"
 	"regexp"
 	"strings"
 )
@@ -281,4 +282,26 @@ func splitTrailingFinancialSection(doc *Document) {
 	rest := append([]Section{}, doc.Sections[tailIdx+1:]...)
 	doc.Sections = append(append(doc.Sections[:tailIdx+1], added...), rest...)
 	doc.Warnings = append(doc.Warnings, "Item 7/8 content carved from the trailing section of Item "+tail.Item)
+}
+
+// MinItemChars are the smallest plausible sizes (summed over all sections of the Item) for a real 10-K of the
+// kind we ingest. Below these a parse has almost certainly lost content (see the JPM annual-report case).
+var MinItemChars = map[string]int{"1": 5000, "1A": 20000, "7": 10000, "8": 30000}
+
+// CheckPlausible reports parses that look like silent data loss, so callers can refuse to load them.
+func (d Document) CheckPlausible() error {
+	var problems []string
+	for _, item := range []string{"1", "1A", "7", "8"} {
+		total := 0
+		for _, s := range d.Item(item) {
+			total += s.chars()
+		}
+		if min := MinItemChars[item]; total < min {
+			problems = append(problems, fmt.Sprintf("Item %s has %d chars (< %d)", item, total, min))
+		}
+	}
+	if len(problems) == 0 {
+		return nil
+	}
+	return fmt.Errorf("parse looks incomplete: %s; warnings: %v", strings.Join(problems, "; "), d.Warnings)
 }

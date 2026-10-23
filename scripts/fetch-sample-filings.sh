@@ -18,6 +18,8 @@ NVDA https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-202
 META https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm
 JPM https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/jpm-20251231.htm
 XOM https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/xom-20251231.htm
+# regression: older JPM 10-K whose annual report is embedded and whose headings double as page headers
+JPM2024 https://www.sec.gov/Archives/edgar/data/19617/000001961725000270/jpm-20241231.htm
 LIST
 
 # XBRL companyfacts for the same companies (CIK padded to 10 digits)

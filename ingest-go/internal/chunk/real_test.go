@@ -30,7 +30,7 @@ func realChunks(t *testing.T, ticker string) []Chunk {
 }
 
 func TestRealFilingsChunking(t *testing.T) {
-	for _, tk := range []string{"AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "JPM", "XOM"} {
+	for _, tk := range []string{"AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "JPM", "XOM", "JPM2024"} {
 		t.Run(tk, func(t *testing.T) {
 			chunks := realChunks(t, tk)
 			if len(chunks) < 50 {

@@ -15,7 +15,7 @@ var (
 // runningWindow is how many blocks at the top or bottom of a page may hold repeated headers/footers.
 const runningWindow = 3
 
-// DropRunningText removes page furniture: footers/headers that repeat at the edge of many pages
+// DropRunningText removes page furniture: footers/headers that repeat near the edge of many pages
 // ("Table of Contents", "Apple Inc. | 2025 Form 10-K | 20") and bare page-number blocks at page edges.
 func DropRunningText(blocks []Block) []Block {
 	if len(blocks) == 0 {
@@ -46,14 +46,20 @@ func DropRunningText(blocks []Block) []Block {
 		}
 		windowPages[n][b.Page] = true
 	}
+	// The first occurrence of repeated text is kept: a section heading is often also the running page header
+	// ("Management's discussion and analysis"), and structure detection needs the heading itself.
+	seen := map[string]bool{}
 	out := make([]Block, 0, len(blocks))
 	for i, b := range blocks {
 		if len(b.Text) <= maxRunning {
 			if isEdge(i) && pageNumRe.MatchString(b.Text) {
 				continue
 			}
-			if inWindow(i) && len(windowPages[norm(b.Text)]) >= 5 {
-				continue
+			if n := norm(b.Text); inWindow(i) && len(windowPages[n]) >= 5 {
+				if seen[n] {
+					continue
+				}
+				seen[n] = true
 			}
 		}
 		out = append(out, b)

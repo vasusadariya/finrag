@@ -3,8 +3,8 @@
     "item": "0",
     "start_page": 1,
     "end_page": 2,
-    "blocks": 136,
-    "chars": 6757
+    "blocks": 137,
+    "chars": 6763
   },
   {
     "item": "1",
@@ -165,15 +165,15 @@
     "synthetic": true,
     "start_page": 45,
     "end_page": 163,
-    "blocks": 3608,
-    "chars": 394949
+    "blocks": 3616,
+    "chars": 395114
   },
   {
     "item": "8",
     "synthetic": true,
     "start_page": 164,
     "end_page": 330,
-    "blocks": 5513,
-    "chars": 565182
+    "blocks": 5517,
+    "chars": 565362
   }
 ]

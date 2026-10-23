@@ -30,7 +30,7 @@ func filingHTML(fy int, variant string) string {
 	}
 	for _, it := range items {
 		fmt.Fprintf(&sb, `<div>Item %s. %s</div>`, it.item, it.title)
-		for i := 0; i < 25; i++ {
+		for i := 0; i < 400; i++ {
 			fmt.Fprintf(&sb, `<p>FY%d %s %s paragraph %d explains something specific about operations and results in plain words.</p>`, fy, variant, it.item, i)
 		}
 		sb.WriteString(`<div style="page-break-after:always"></div>`)
@@ -59,6 +59,7 @@ type fakeEDGAR struct {
 	srv         *httptest.Server
 	mu          sync.Mutex
 	variant2025 string
+	shrink      atomic.Bool
 }
 
 func newFakeEDGAR(t *testing.T) *fakeEDGAR {
@@ -73,6 +74,10 @@ func newFakeEDGAR(t *testing.T) *fakeEDGAR {
 		case r.URL.Path == "/api/xbrl/companyfacts/CIK0000000099.json":
 			_, _ = w.Write([]byte(companyFacts))
 		case strings.HasSuffix(r.URL.Path, "/acme-2025.htm"):
+			if f.shrink.Load() {
+				_, _ = w.Write([]byte("<html><body><div>Item 8. Financial Statements and Supplementary Data</div><div>See annual report.</div></body></html>"))
+				return
+			}
 			_, _ = w.Write([]byte(filingHTML(2025, v)))
 		case strings.HasSuffix(r.URL.Path, "/acme-2024.htm"):
 			_, _ = w.Write([]byte(filingHTML(2024, "v1")))
@@ -231,6 +236,18 @@ func TestEmbedderFailureThenRecovery(t *testing.T) {
 	}
 	if dbCount(t, p, "SELECT count(*) FROM chunks") == 0 {
 		t.Error("recovery run loaded nothing")
+	}
+}
+
+func TestImplausibleParseIsRefusedNotLoaded(t *testing.T) {
+	p, fe, emb := setup(t)
+	fe.shrink.Store(true) // serve a filing whose Item 8 is a stub
+	_, err := p.RunCompany(context.Background(), acme)
+	if err == nil || !strings.Contains(err.Error(), "refusing to load") {
+		t.Fatalf("expected refusal, got %v", err)
+	}
+	if dbCount(t, p, "SELECT count(*) FROM chunks") != 0 || emb.calls.Load() != 0 {
+		t.Error("a refused filing must not be embedded or loaded")
 	}
 }
 

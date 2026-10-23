@@ -30,7 +30,7 @@ type goldenSection struct {
 	Chars     int    `json:"chars"`
 }
 
-var tickers = []string{"AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "JPM", "XOM"}
+var tickers = []string{"AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "JPM", "XOM", "JPM2024"}
 
 func parseFiling(t *testing.T, ticker string) (Document, Meta) {
 	t.Helper()

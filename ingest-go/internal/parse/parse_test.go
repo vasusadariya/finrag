@@ -45,13 +45,45 @@ func TestDropRunningText(t *testing.T) {
 		)
 	}
 	out := DropRunningText(blocks)
-	if len(out) != 7 {
-		t.Fatalf("kept %d blocks, want 7: %+v", len(out), out)
-	}
+	var furniture, real int
 	for _, b := range out {
-		if !strings.HasPrefix(b.Text, "Real paragraph") {
-			t.Errorf("furniture survived: %q", b.Text)
+		if strings.HasPrefix(b.Text, "Real paragraph") {
+			real++
+		} else {
+			furniture++
+			if b.Page != 1 {
+				t.Errorf("furniture beyond its first occurrence survived: %+v", b)
+			}
 		}
+	}
+	// all real text kept; page numbers gone; each repeated header/footer kept once (first occurrence)
+	if real != 7 || furniture != 2 {
+		t.Fatalf("real=%d furniture=%d, want 7 and 2: %+v", real, furniture, out)
+	}
+}
+
+func TestDropRunningKeepsHeadingThatIsAlsoPageHeader(t *testing.T) {
+	var blocks []Block
+	for p := 1; p <= 8; p++ {
+		blocks = append(blocks,
+			Block{"Management's discussion and analysis", p}, // heading on page 1, running header afterwards
+			Block{"Body text number " + strings.Repeat("y", p) + " with enough words to be real content.", p},
+			Block{"More body " + strings.Repeat("z", p), p},
+			Block{"Filler " + strings.Repeat("w", p), p},
+			Block{"Filler " + strings.Repeat("v", p), p},
+		)
+	}
+	n := 0
+	for _, b := range DropRunningText(blocks) {
+		if b.Text == "Management's discussion and analysis" {
+			n++
+			if b.Page != 1 {
+				t.Errorf("kept the wrong occurrence (page %d)", b.Page)
+			}
+		}
+	}
+	if n != 1 {
+		t.Errorf("heading kept %d times, want exactly once", n)
 	}
 }
 
@@ -190,5 +222,29 @@ func TestExtractMeta(t *testing.T) {
 	}
 	if (ExtractMeta([]byte("<html></html>")) != Meta{}) {
 		t.Error("missing meta should be zero")
+	}
+}
+
+func TestCheckPlausible(t *testing.T) {
+	big := func(item string) Section {
+		return Section{Item: item, Title: item, Blocks: []Block{{Text: strings.Repeat("word ", 20000), Page: 1}}}
+	}
+	ok := Document{Sections: []Section{big("1"), big("1A"), big("7"), big("8")}}
+	if err := ok.CheckPlausible(); err != nil {
+		t.Errorf("complete document rejected: %v", err)
+	}
+	// content split over several sections of one Item (synthetic carve-outs) counts together
+	split := Document{Sections: []Section{big("1"), big("1A"), {Item: "7", Blocks: []Block{{Text: strings.Repeat("w ", 3000), Page: 1}}},
+		{Item: "7", Blocks: []Block{{Text: strings.Repeat("w ", 3000), Page: 2}}}, big("8")}}
+	if err := split.CheckPlausible(); err != nil {
+		t.Errorf("split Item 7 rejected: %v", err)
+	}
+	lost := Document{Sections: []Section{big("1"), big("1A"), {Item: "7", Blocks: []Block{{Text: "see annual report", Page: 1}}}, big("8")}}
+	err := lost.CheckPlausible()
+	if err == nil || !strings.Contains(err.Error(), "Item 7") {
+		t.Errorf("stub Item 7 should be rejected, got %v", err)
+	}
+	if err := (Document{}).CheckPlausible(); err == nil {
+		t.Error("empty document must be rejected")
 	}
 }

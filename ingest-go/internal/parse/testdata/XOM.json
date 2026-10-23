@@ -3,8 +3,8 @@
     "item": "0",
     "start_page": 1,
     "end_page": 3,
-    "blocks": 129,
-    "chars": 5653
+    "blocks": 132,
+    "chars": 5701
   },
   {
     "item": "1",
@@ -38,8 +38,8 @@
     "item": "2",
     "start_page": 11,
     "end_page": 24,
-    "blocks": 449,
-    "chars": 35555
+    "blocks": 450,
+    "chars": 35639
   },
   {
     "item": "3",
@@ -165,16 +165,16 @@
     "synthetic": true,
     "start_page": 30,
     "end_page": 70,
-    "blocks": 815,
-    "chars": 137194
+    "blocks": 817,
+    "chars": 137302
   },
   {
     "item": "8",
     "synthetic": true,
     "start_page": 71,
     "end_page": 129,
-    "blocks": 1945,
-    "chars": 161211
+    "blocks": 1947,
+    "chars": 161359
   },
   {
     "item": "16",

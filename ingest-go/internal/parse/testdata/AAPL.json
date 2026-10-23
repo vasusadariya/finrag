@@ -3,15 +3,15 @@
     "item": "0",
     "start_page": 1,
     "end_page": 3,
-    "blocks": 136,
-    "chars": 8535
+    "blocks": 137,
+    "chars": 8545
   },
   {
     "item": "1",
     "start_page": 3,
     "end_page": 6,
-    "blocks": 53,
-    "chars": 15949
+    "blocks": 54,
+    "chars": 15980
   },
   {
     "item": "1A",
@@ -73,8 +73,8 @@
     "item": "7",
     "start_page": 23,
     "end_page": 29,
-    "blocks": 134,
-    "chars": 17789
+    "blocks": 135,
+    "chars": 17803
   },
   {
     "item": "7A",
@@ -87,8 +87,8 @@
     "item": "8",
     "start_page": 30,
     "end_page": 53,
-    "blocks": 656,
-    "chars": 59381
+    "blocks": 657,
+    "chars": 59441
   },
   {
     "item": "9",

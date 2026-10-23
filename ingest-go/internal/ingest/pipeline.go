@@ -109,6 +109,9 @@ func (p Pipeline) ingestFiling(ctx context.Context, c Company, companyID int, f 
 		return fr, 0, err
 	}
 	doc := parse.Split(blocks)
+	if err := doc.CheckPlausible(); err != nil {
+		return fr, 0, fmt.Errorf("refusing to load: %w", err)
+	}
 	for _, w := range doc.Warnings {
 		p.logf("%s %s: parse warning: %s", c.Ticker, f.Accession, w)
 	}
