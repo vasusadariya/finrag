@@ -1,4 +1,4 @@
-.PHONY: migrate-up db-local db-local-stop lint lint-py lint-go test test-py test-go fmt up down ingest eval
+.PHONY: ingest-report migrate-up db-local db-local-stop lint lint-py lint-go test test-py test-go fmt up down ingest eval
 
 lint: lint-py lint-go
 
@@ -28,8 +28,13 @@ up:
 down:
 	docker compose down
 
-ingest:
-	@echo "not implemented until step 1.11"; exit 1
+# Download, parse, chunk, embed and load all 8 companies (resumable). Needs Postgres (make up / make db-local),
+# `uv sync --group embed` in backend/, and .env (see .env.example). Limit with TICKERS=AAPL,MSFT.
+ingest: migrate-up
+	cd ingest-go && go run ./cmd/finrag-ingest run $(if $(TICKERS),--tickers $(TICKERS),)
+
+ingest-report:
+	cd ingest-go && go run ./cmd/finrag-ingest report
 
 eval:
 	@echo "not implemented until step 3.13"; exit 1
@@ -41,4 +46,4 @@ db-local-stop:
 	scripts/dev-postgres.sh stop
 
 migrate-up:
-	cd ingest-go && go run -tags "postgres file" github.com/golang-migrate/migrate/v4/cmd/migrate -path ../db/migrations -database "$${DATABASE_URL:-postgres://finrag:finrag@localhost:5432/finrag?sslmode=disable}" up
+	@set -a; [ -f .env ] && . ./.env; set +a; cd ingest-go && go run -tags "postgres file" github.com/golang-migrate/migrate/v4/cmd/migrate -path ../db/migrations -database "$${DATABASE_URL:-postgres://finrag:finrag@localhost:5432/finrag?sslmode=disable}" up

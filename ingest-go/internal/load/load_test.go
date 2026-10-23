@@ -9,24 +9,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/golang-migrate/migrate/v4"
 	"github.com/vasusadariya/finrag/ingest-go/internal/chunk"
+	"github.com/vasusadariya/finrag/ingest-go/internal/dbtest"
 	"github.com/vasusadariya/finrag/ingest-go/internal/parse"
 	"github.com/vasusadariya/finrag/ingest-go/internal/xbrl"
 )
-
-func migratedDB(t *testing.T) *sql.DB {
-	t.Helper()
-	dbURL, db := scratchDB(t)
-	m, err := migrate.New(migrationsDir, dbURL)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if err := m.Up(); err != nil {
-		t.Fatal(err)
-	}
-	return db
-}
 
 // unitVec returns a 768-d vector with a single hot dimension, so cosine distances are predictable.
 func unitVec(hot int) []float32 {
@@ -82,7 +69,7 @@ func count(t *testing.T, db *sql.DB, q string, args ...any) int {
 }
 
 func TestLoadAndReingestNoDuplicates(t *testing.T) {
-	db := migratedDB(t)
+	db := dbtest.Migrated(t)
 	l, cid, fid := setup(t, db)
 	chunks, emb := makeChunks(6, func(i int) string { return fmt.Sprintf("Passage %d about topic.", i) })
 	ctx := context.Background()
@@ -107,7 +94,7 @@ func TestLoadAndReingestNoDuplicates(t *testing.T) {
 }
 
 func TestCompanyAndFilingUpsertIdempotent(t *testing.T) {
-	db := migratedDB(t)
+	db := dbtest.Migrated(t)
 	l, cid, fid := setup(t, db)
 	ctx := context.Background()
 	cid2, _ := l.UpsertCompany(ctx, Company{CIK: "1", Ticker: "ACME", Name: "Acme Corporation"})
@@ -128,7 +115,7 @@ func TestCompanyAndFilingUpsertIdempotent(t *testing.T) {
 }
 
 func TestReingestWithFewerChunksRemovesStale(t *testing.T) {
-	db := migratedDB(t)
+	db := dbtest.Migrated(t)
 	l, cid, fid := setup(t, db)
 	ctx := context.Background()
 	big, embBig := makeChunks(8, func(i int) string { return fmt.Sprintf("Old passage %d.", i) })
@@ -148,7 +135,7 @@ func TestReingestWithFewerChunksRemovesStale(t *testing.T) {
 }
 
 func TestVectorAndKeywordSearchWork(t *testing.T) {
-	db := migratedDB(t)
+	db := dbtest.Migrated(t)
 	l, cid, fid := setup(t, db)
 	chunks, emb := makeChunks(5, func(i int) string {
 		if i == 3 {
@@ -200,7 +187,7 @@ func TestVectorAndKeywordSearchWork(t *testing.T) {
 }
 
 func TestRejectsMissingOrWrongSizedEmbeddings(t *testing.T) {
-	db := migratedDB(t)
+	db := dbtest.Migrated(t)
 	l, cid, fid := setup(t, db)
 	chunks, emb := makeChunks(2, func(i int) string { return fmt.Sprintf("P%d", i) })
 	ctx := context.Background()
@@ -247,7 +234,7 @@ func sampleFacts() []xbrl.Fact {
 }
 
 func TestReplaceFactsIdempotent(t *testing.T) {
-	db := migratedDB(t)
+	db := dbtest.Migrated(t)
 	l, cid, fid := setup(t, db)
 	ids := map[string]int{"0000000001-26-000001": fid}
 	for run := 0; run < 3; run++ {
@@ -278,7 +265,7 @@ func TestReplaceFactsIdempotent(t *testing.T) {
 }
 
 func TestReplaceFactsOnlyTouchesOneCompany(t *testing.T) {
-	db := migratedDB(t)
+	db := dbtest.Migrated(t)
 	l, cid, fid := setup(t, db)
 	other, err := l.UpsertCompany(context.Background(), Company{CIK: "2", Ticker: "OTHR", Name: "Other"})
 	if err != nil {
