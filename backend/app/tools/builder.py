@@ -1,11 +1,14 @@
 """Assembles the agent's tool set and its model-facing descriptions."""
 
+from dataclasses import dataclass
+
 from app.llm.types import ToolSpec
-from app.retrieval.types import SECTIONS
+from app.retrieval.types import SECTIONS, Retriever
 from app.tools.calculator import calculator_tool
 from app.tools.filing_search import FilingSearch
 from app.tools.financial_sql import FinancialSql
 from app.tools.registry import ToolRegistry
+from app.tools.text_to_sql import TextToSql
 
 FILING_SEARCH = ToolSpec(
     name="filing_search",
@@ -74,3 +77,17 @@ def build_registry(search: FilingSearch, sql: FinancialSql) -> ToolRegistry:
     reg.register(FINANCIAL_SQL, sql)
     reg.register(CALCULATOR, calculator_tool)
     return reg
+
+
+@dataclass
+class ToolBundle:
+    """One agent run's tools plus the stateful wrappers that record its evidence."""
+
+    registry: ToolRegistry
+    search: FilingSearch
+    sql: FinancialSql
+
+
+def new_bundle(retriever: Retriever, t2s: TextToSql) -> ToolBundle:
+    search, sql = FilingSearch(retriever), FinancialSql(t2s)
+    return ToolBundle(build_registry(search, sql), search, sql)
