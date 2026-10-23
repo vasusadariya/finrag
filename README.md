@@ -6,7 +6,7 @@ evidence. Measured against a vector-only baseline.
 
 > Not investment advice.
 
-Status: Phase 1 (data foundation) in progress. Build plan: `docs/build-plan.md`; design decisions: `docs/decisions.md`.
+Status: Phase 1 (data foundation) complete (tag v0.1); Phase 2 (retrieval) in progress. Build plan: `docs/build-plan.md`; design decisions: `docs/decisions.md`.
 
 Companies: AAPL, MSFT, GOOGL, AMZN, NVDA, META, JPM, XOM; the last three 10-Ks of each, plus XBRL company facts.
 
