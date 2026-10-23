@@ -34,7 +34,8 @@ def agent(script: list[Any], **cfg: Any) -> tuple[Agent, ScriptedLLM]:
 def test_direct_answer_without_tools() -> None:
     a, llm = agent([say("Hello [c1]")])
     r = a.run("hi")
-    assert r.status == "answered" and r.answer == "Hello [c1]" and len(r.steps) == 1
+    assert r.status == "refused" and r.reason == "no_evidence"  # an answer needs tool evidence
+    assert len(r.steps) == 1
     assert llm.requests[0]["tools"] and "AAPL FY2022-2024" in str(llm.requests[0]["system"])
 
 
@@ -59,12 +60,12 @@ def test_tool_round_trip_is_fed_back_and_traced() -> None:
 def test_bad_tool_calls_are_reported_to_the_model_not_raised() -> None:
     a, llm = agent([call("nope", x=1), call("calculator", expression=5), say("Cannot.")])
     r = a.run("q")
-    assert r.status == "answered"
+    assert len(r.steps) == 3
     assert [t.ok for s in r.steps for t in s.tools] == [False, False]
 
 
 def test_step_cap_forces_a_final_answer_without_tools() -> None:
-    script = [call("calculator", expression=f"{i}+1") for i in range(3)] + [say("Done [c1]")]
+    script = [call("filing_search", query=f"q{i}") for i in range(3)] + [say("Done [c1]")]
     a, llm = agent(script, max_steps=3)
     r = a.run("q")
     assert "step_limit_reached" in r.flags and r.answer == "Done [c1]"
@@ -148,3 +149,50 @@ def test_invented_calculator_input_is_caught() -> None:
 def test_refusals_skip_the_number_check() -> None:
     r = agent([say("INSUFFICIENT_EVIDENCE: no 2019 data, only 2022-2024.")])[0].run("2019?")
     assert r.status == "refused" and not r.flags
+
+
+def test_citations_are_resolved_to_objects() -> None:
+    a, _ = agent(
+        [
+            call("filing_search", query="risks", ticker="AAPL"),
+            call("financial_sql", question="revenue"),
+            say("Supply risks exist [c1]. Revenue was $391.0 billion [sql1, c1]."),
+        ]
+    )
+    r = a.run("q")
+    assert r.status == "answered" and [c["id"] for c in r.citations] == ["c1", "sql1"]
+    assert r.citations[0]["type"] == "filing" and r.citations[0]["label"].startswith("AAPL FY2024")
+    assert r.citations[1]["type"] == "sql" and r.citations[1]["rows"] == [[391035000000]]
+
+
+def test_invented_citation_ids_are_removed_and_flagged() -> None:
+    a, _ = agent([call("filing_search", query="r"), say("Risk exists [c1] and more [c9].")])
+    r = a.run("q")
+    assert r.answer == "Risk exists [c1] and more." and "invalid_citation_removed" in r.flags
+    assert [c["id"] for c in r.citations] == ["c1"]
+
+
+def test_uncited_answer_gets_one_repair_then_refusal() -> None:
+    a, llm = agent([call("filing_search", query="r"), say("Risk exists."), say("Risk exists.")])
+    r = a.run("q")
+    assert r.status == "refused" and r.reason == "uncited"
+    assert "citation_repair_attempted" in r.flags and len(llm.script) == 0
+    fixed, _ = agent([call("filing_search", query="r"), say("Risk exists."), say("Risk [c1].")])
+    assert fixed.run("q").status == "answered"
+
+
+def test_answer_without_any_tool_evidence_is_refused() -> None:
+    r = agent([say("Apple revenue is huge [c1].")])[0].run("q")
+    assert r.status == "refused" and r.reason == "no_evidence" and r.citations == []
+    only_calc = agent([call("calculator", expression="1+1"), say("It is 2 [c1].")])[0].run("q")
+    assert only_calc.status == "refused" and only_calc.reason == "no_evidence"
+
+
+def test_empty_search_results_are_not_evidence() -> None:
+    class Empty:
+        def search(self, query: str, filters: Filters | None = None, k: int = 5) -> list[Hit]:
+            return []
+
+    llm = ScriptedLLM([call("filing_search", query="r"), say("Something [c1].")])
+    ag = Agent(llm, lambda: new_bundle(Empty(), FakeT2S()), "cov")  # type: ignore[arg-type]
+    assert ag.run("q").reason == "no_evidence"

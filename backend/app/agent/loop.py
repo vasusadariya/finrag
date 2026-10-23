@@ -5,6 +5,13 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from app.agent.citations import (
+    build_citations,
+    cited_ids,
+    has_evidence,
+    known_ids,
+    strip_unknown,
+)
 from app.agent.grounding import (
     find_ungrounded,
     find_ungrounded_inputs,
@@ -29,6 +36,17 @@ REPAIR_NUMBERS = (
     "come from a tool. Fetch or calculate them with the tools, or remove them, then give the "
     "corrected final answer (keep the citations)."
 )
+
+
+REPAIR_CITATIONS = (
+    "Your answer has no valid citation. Cite each claim with the citation ids returned by the "
+    "tools, like [c1] or [sql1]. If you have no tool evidence for it, call a tool first, or reply "
+    f"with {REFUSAL_PREFIX} and what is missing."
+)
+NO_EVIDENCE_MESSAGE = (
+    "I could not find supporting evidence for this in the filings I have, so I won't guess."
+)
+UNCITED_MESSAGE = "I could not tie an answer to a source in the filings, so I won't state one."
 
 
 @dataclass(frozen=True)
@@ -88,8 +106,32 @@ class Agent:
         result.latency_s = time.perf_counter() - started
         if final is None:
             return result
+        final = self._verify_citations(final, messages, bundle, result)
         final = self._verify_numbers(final, question, messages, bundle, result)
         return self.finish(final, bundle, result)
+
+    def _verify_citations(
+        self, final: str, messages: list[Message], bundle: ToolBundle, result: AgentResult
+    ) -> str:
+        """Answers must cite sources the tools actually returned; one repair round, then refuse."""
+        if final.strip().upper().startswith(REFUSAL_PREFIX) or not final.strip():
+            return final
+        known = known_ids(bundle)
+        if not [i for i in cited_ids(final) if i in known] and has_evidence(result.evidence):
+            messages.append(Message("user", REPAIR_CITATIONS))
+            result.flags.append("citation_repair_attempted")
+            try:
+                final = self._loop(messages, bundle, result, self._cfg.repair_steps)
+            except LLMError:
+                pass
+            known = known_ids(bundle)
+        if final.strip().upper().startswith(REFUSAL_PREFIX):
+            return final
+        unknown = [i for i in cited_ids(final) if i not in known]
+        if unknown:
+            result.flags.append("invalid_citation_removed")
+            final = strip_unknown(final, known)
+        return final
 
     def _ungrounded(self, text: str, question: str, result: AgentResult) -> list[str]:
         if text.strip().upper().startswith(REFUSAL_PREFIX):
@@ -135,7 +177,17 @@ class Agent:
             result.status, result.reason = "refused", "model_declined"
             result.answer = text[len(REFUSAL_PREFIX) :].strip() or "Not enough evidence."
             return result
+        if not has_evidence(result.evidence):
+            result.status, result.reason = "refused", "no_evidence"
+            result.answer = NO_EVIDENCE_MESSAGE
+            return result
+        ids = [i for i in cited_ids(text) if i in known_ids(bundle)]
+        if not ids:
+            result.status, result.reason = "refused", "uncited"
+            result.answer = UNCITED_MESSAGE
+            return result
         result.status, result.answer = "answered", text
+        result.citations = build_citations(ids, bundle)
         return result
 
     def _generate(

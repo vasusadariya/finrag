@@ -66,3 +66,19 @@ directly on the database; the model's guard-validated SQL result must contain th
 - The pass threshold in the test is 12/15. Treat the honest figure as "13/15 as first scored, 15/15 after a
   fairer checker" on 15 easy-to-medium single-fact and ratio questions. Harder questions (multi-company
   comparisons over several concepts, fiscal-year edge cases such as MSFT/NVDA) are covered by the full eval in 3.13.
+
+## Refusal design (3.10)
+
+The reranker-logit confidence measured AUC 0.56-0.59 for answerable vs unanswerable questions, so it
+does not gate answers. Refusals are driven by evidence instead:
+
+1. the model declines (`INSUFFICIENT_EVIDENCE: ...`) when tools do not support an answer;
+2. an answer with no non-empty retrieval/SQL result behind it is refused (`no_evidence`);
+3. an answer with no citation that matches an id the tools returned gets one repair round, then is
+   refused (`uncited`); unknown ids are stripped and flagged;
+4. numbers not found in tool outputs get one repair round, then the answer is kept but flagged
+   (`ungrounded_numbers`). Calculator inputs are checked the same way so invented inputs cannot be
+   laundered through the calculator.
+
+Whether this refuses the right questions is measured in 3.13 (refusal rate on unanswerable
+questions vs wrongly-refused answerable ones).
