@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "comment": "Single source of truth for what LLM-written SQL may touch. Read by the Go SQL guard (sqlguard-go) and the Python text-to-SQL tool. Keep in sync with db/migrations (a test checks this).",
+  "max_limit": 200,
+  "default_limit": 50,
+  "tables": {
+    "companies": {
+      "description": "The 8 covered companies.",
+      "columns": {
+        "id": "internal id (join key)",
+        "cik": "SEC central index key",
+        "ticker": "stock ticker: AAPL, MSFT, GOOGL, AMZN, NVDA, META, JPM, XOM",
+        "name": "company name"
+      }
+    },
+    "filings": {
+      "description": "One row per 10-K filing loaded (last three fiscal years per company).",
+      "columns": {
+        "id": "internal id (join key)",
+        "company_id": "-> companies.id",
+        "accession": "SEC accession number",
+        "form": "always 10-K",
+        "fiscal_year": "the company's own fiscal year label (MSFT: year ending June; NVDA: year ending January)",
+        "period_end": "balance sheet date of the fiscal year",
+        "filed_at": "filing date",
+        "url": "document URL"
+      }
+    },
+    "xbrl_facts": {
+      "description": "Annual financial facts from SEC XBRL data: one row per company, concept, unit and annual period.",
+      "columns": {
+        "id": "internal id",
+        "company_id": "-> companies.id",
+        "filing_id": "-> filings.id (NULL for older comparatives not in a loaded filing)",
+        "concept": "us-gaap tag, e.g. NetIncomeLoss (see glossary)",
+        "fiscal_year": "fiscal year of the PERIOD the value describes, in the company's own labelling",
+        "fiscal_period": "always FY (annual)",
+        "period_start": "start of the period; NULL for balance-sheet (point in time) values",
+        "period_end": "end of the period or balance sheet date",
+        "unit": "USD, USD/shares or shares",
+        "value": "numeric value in full units (USD, not millions)",
+        "accession": "filing that reported the value"
+      }
+    }
+  },
+  "functions": [
+    "sum", "avg", "min", "max", "count",
+    "round", "abs", "lower", "upper",
+    "lag", "lead", "row_number", "rank"
+  ],
+  "glossary": {
+    "notes": [
+      "Values are in full units: USD 416161000000 means $416.161 billion. Divide by 1e9 for billions.",
+      "Always filter unit = 'USD' for dollar amounts (EPS uses 'USD/shares').",
+      "fiscal_year is the company's own label: AAPL/AMZN/GOOGL/META/JPM/XOM FY2023-2025; MSFT FY2024-2026 (years end June); NVDA FY2024-2026 (years end January).",
+      "Companies use different tags for the same idea; use the concept lists below and COALESCE or filter with IN (...).",
+      "Join companies with xbrl_facts on companies.id = xbrl_facts.company_id and filter by companies.ticker."
+    ],
+    "concepts": {
+      "revenue": ["Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "RevenueFromContractWithCustomerIncludingAssessedTax", "SalesRevenueNet"],
+      "cost of revenue": ["CostOfRevenue", "CostOfGoodsAndServicesSold"],
+      "gross profit": ["GrossProfit"],
+      "research and development": ["ResearchAndDevelopmentExpense"],
+      "operating expenses": ["OperatingExpenses", "SellingGeneralAndAdministrativeExpense", "SellingAndMarketingExpense", "GeneralAndAdministrativeExpense"],
+      "operating income": ["OperatingIncomeLoss"],
+      "net income": ["NetIncomeLoss"],
+      "pre-tax income": ["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
+      "income tax": ["IncomeTaxExpenseBenefit"],
+      "interest expense": ["InterestExpense"],
+      "earnings per share": ["EarningsPerShareBasic", "EarningsPerShareDiluted"],
+      "shares outstanding (weighted)": ["WeightedAverageNumberOfDilutedSharesOutstanding", "WeightedAverageNumberOfSharesOutstandingBasic"],
+      "total assets": ["Assets"],
+      "current assets": ["AssetsCurrent"],
+      "total liabilities": ["Liabilities"],
+      "current liabilities": ["LiabilitiesCurrent"],
+      "shareholders equity": ["StockholdersEquity"],
+      "cash": ["CashAndCashEquivalentsAtCarryingValue"],
+      "long-term debt": ["LongTermDebt", "LongTermDebtNoncurrent"],
+      "operating cash flow": ["NetCashProvidedByUsedInOperatingActivities"],
+      "investing cash flow": ["NetCashProvidedByUsedInInvestingActivities"],
+      "financing cash flow": ["NetCashProvidedByUsedInFinancingActivities"],
+      "capital expenditure": ["PaymentsToAcquirePropertyPlantAndEquipment"],
+      "share repurchases": ["PaymentsForRepurchaseOfCommonStock"],
+      "dividends paid": ["PaymentsOfDividends", "PaymentsOfDividendsCommonStock"],
+      "depreciation and amortization": ["DepreciationDepletionAndAmortization"],
+      "stock-based compensation": ["ShareBasedCompensation"],
+      "bank interest income": ["InterestAndDividendIncomeOperating", "InterestIncomeExpenseNet"],
+      "bank noninterest income": ["NoninterestIncome"],
+      "bank noninterest expense": ["NoninterestExpense"],
+      "bank provision for credit losses": ["ProvisionForLoanLeaseAndOtherLosses"],
+      "bank deposits": ["Deposits"]
+    }
+  }
+}
