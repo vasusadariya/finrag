@@ -12,3 +12,4 @@ bin/
 data/
 *.tfstate*
 .terraform/
+ingest-go/testdata/filings/

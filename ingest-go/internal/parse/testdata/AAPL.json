@@ -1,0 +1,170 @@
+[
+  {
+    "item": "0",
+    "start_page": 1,
+    "end_page": 3,
+    "blocks": 136,
+    "chars": 8535
+  },
+  {
+    "item": "1",
+    "start_page": 3,
+    "end_page": 6,
+    "blocks": 53,
+    "chars": 15949
+  },
+  {
+    "item": "1A",
+    "start_page": 7,
+    "end_page": 19,
+    "blocks": 107,
+    "chars": 68074
+  },
+  {
+    "item": "1B",
+    "start_page": 19,
+    "end_page": 19,
+    "blocks": 2,
+    "chars": 39
+  },
+  {
+    "item": "1C",
+    "start_page": 19,
+    "end_page": 19,
+    "blocks": 5,
+    "chars": 2724
+  },
+  {
+    "item": "2",
+    "start_page": 19,
+    "end_page": 19,
+    "blocks": 2,
+    "chars": 484
+  },
+  {
+    "item": "3",
+    "start_page": 20,
+    "end_page": 20,
+    "blocks": 9,
+    "chars": 5452
+  },
+  {
+    "item": "4",
+    "start_page": 20,
+    "end_page": 21,
+    "blocks": 3,
+    "chars": 53
+  },
+  {
+    "item": "5",
+    "start_page": 21,
+    "end_page": 22,
+    "blocks": 29,
+    "chars": 2605
+  },
+  {
+    "item": "6",
+    "start_page": 22,
+    "end_page": 22,
+    "blocks": 1,
+    "chars": 18
+  },
+  {
+    "item": "7",
+    "start_page": 23,
+    "end_page": 29,
+    "blocks": 134,
+    "chars": 17789
+  },
+  {
+    "item": "7A",
+    "start_page": 29,
+    "end_page": 29,
+    "blocks": 19,
+    "chars": 2997
+  },
+  {
+    "item": "8",
+    "start_page": 30,
+    "end_page": 53,
+    "blocks": 656,
+    "chars": 59381
+  },
+  {
+    "item": "9",
+    "start_page": 54,
+    "end_page": 54,
+    "blocks": 2,
+    "chars": 97
+  },
+  {
+    "item": "9A",
+    "start_page": 54,
+    "end_page": 54,
+    "blocks": 13,
+    "chars": 4495
+  },
+  {
+    "item": "9B",
+    "start_page": 55,
+    "end_page": 55,
+    "blocks": 4,
+    "chars": 570
+  },
+  {
+    "item": "9C",
+    "start_page": 55,
+    "end_page": 55,
+    "blocks": 3,
+    "chars": 99
+  },
+  {
+    "item": "10",
+    "start_page": 55,
+    "end_page": 55,
+    "blocks": 2,
+    "chars": 404
+  },
+  {
+    "item": "11",
+    "start_page": 55,
+    "end_page": 55,
+    "blocks": 2,
+    "chars": 155
+  },
+  {
+    "item": "12",
+    "start_page": 55,
+    "end_page": 55,
+    "blocks": 2,
+    "chars": 227
+  },
+  {
+    "item": "13",
+    "start_page": 55,
+    "end_page": 55,
+    "blocks": 2,
+    "chars": 206
+  },
+  {
+    "item": "14",
+    "start_page": 55,
+    "end_page": 56,
+    "blocks": 3,
+    "chars": 178
+  },
+  {
+    "item": "15",
+    "start_page": 56,
+    "end_page": 59,
+    "blocks": 211,
+    "chars": 11511
+  },
+  {
+    "item": "16",
+    "start_page": 59,
+    "end_page": 60,
+    "blocks": 38,
+    "chars": 1986
+  }
+]
