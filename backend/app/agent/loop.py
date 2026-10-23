@@ -5,6 +5,11 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from app.agent.grounding import (
+    find_ungrounded,
+    find_ungrounded_inputs,
+    source_numbers,
+)
 from app.agent.prompt import REFUSAL_PREFIX, system_prompt
 from app.agent.types import AgentResult, Step, ToolTrace
 from app.llm.types import LLMClient, LLMError, LLMResponse, Message, ToolCall, ToolResult, Usage
@@ -19,12 +24,20 @@ FORCE_ANSWER = (
 )
 
 
+REPAIR_NUMBERS = (
+    "These numbers in your answer do not appear in any tool result: {numbers}. Every number must "
+    "come from a tool. Fetch or calculate them with the tools, or remove them, then give the "
+    "corrected final answer (keep the citations)."
+)
+
+
 @dataclass(frozen=True)
 class AgentConfig:
     max_steps: int = 6  # model turns that may call tools
     max_calls_per_step: int = 4
     token_budget: int = 60_000  # total (prompt + output + thinking) tokens across the run
     max_output_tokens: int = 2048
+    repair_steps: int = 3  # tool steps allowed in the one correction round
 
 
 def _add(a: Usage, b: Usage) -> Usage:
@@ -75,7 +88,42 @@ class Agent:
         result.latency_s = time.perf_counter() - started
         if final is None:
             return result
+        final = self._verify_numbers(final, question, messages, bundle, result)
         return self.finish(final, bundle, result)
+
+    def _ungrounded(self, text: str, question: str, result: AgentResult) -> list[str]:
+        if text.strip().upper().startswith(REFUSAL_PREFIX):
+            return []
+        sources = source_numbers([question, *result.evidence])
+        bad = find_ungrounded(text, sources)
+        for step in result.steps:  # calculator inputs must come from tools too
+            for t in step.tools:
+                if t.name == "calculator" and isinstance(t.args.get("expression"), str):
+                    bad += find_ungrounded_inputs(t.args["expression"], sources)
+        return list(dict.fromkeys(bad))
+
+    def _verify_numbers(
+        self,
+        final: str,
+        question: str,
+        messages: list[Message],
+        bundle: ToolBundle,
+        result: AgentResult,
+    ) -> str:
+        """Check numbers against tool outputs; allow one correction round, then flag."""
+        bad = self._ungrounded(final, question, result)
+        if bad:
+            messages.append(Message("user", REPAIR_NUMBERS.format(numbers=", ".join(bad))))
+            result.flags.append("number_repair_attempted")
+            try:
+                final = self._loop(messages, bundle, result, self._cfg.repair_steps)
+            except LLMError:
+                pass  # keep the original answer; it gets flagged below
+            bad = self._ungrounded(final, question, result)
+        if bad:
+            result.ungrounded = bad
+            result.flags.append("ungrounded_numbers")
+        return final
 
     def finish(self, final: str, bundle: ToolBundle, result: AgentResult) -> AgentResult:
         """Turn the model's final text into a result (hook for grounding/citation checks)."""
@@ -118,7 +166,8 @@ class Agent:
         messages.append(resp.message or Message("model", resp.text, tool_calls=resp.tool_calls))
         return resp
 
-    def _run_tools(self, calls: list[ToolCall], bundle: ToolBundle, step: Step) -> Message:
+    def _run_tools(self, calls: list[ToolCall], bundle: ToolBundle, result: AgentResult) -> Message:
+        step = result.steps[-1]
         results: list[ToolResult] = []
         for i, call in enumerate(calls):
             t0 = time.perf_counter()
@@ -126,6 +175,7 @@ class Agent:
                 res = ToolResult(call.id, call.name, {"ok": False, "error": "too many tool calls"})
             else:
                 res = bundle.registry.call(call)
+                result.evidence.append(res.content)
             ok, summary = summarize(res)
             step.tools.append(
                 ToolTrace(call.id, call.name, call.args, ok, summary, time.perf_counter() - t0)
@@ -133,12 +183,18 @@ class Agent:
             results.append(res)
         return Message("tool", tool_results=results)
 
-    def _loop(self, messages: list[Message], bundle: ToolBundle, result: AgentResult) -> str:
-        for _ in range(self._cfg.max_steps):
+    def _loop(
+        self,
+        messages: list[Message],
+        bundle: ToolBundle,
+        result: AgentResult,
+        max_steps: int | None = None,
+    ) -> str:
+        for _ in range(max_steps or self._cfg.max_steps):
             resp = self._generate(messages, result, with_tools=True, bundle=bundle)
             if not resp.tool_calls:
                 return resp.text
-            messages.append(self._run_tools(resp.tool_calls, bundle, result.steps[-1]))
+            messages.append(self._run_tools(resp.tool_calls, bundle, result))
             if result.usage.total > self._cfg.token_budget:
                 result.flags.append("token_budget_exceeded")
                 break

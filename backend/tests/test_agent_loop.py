@@ -102,3 +102,49 @@ def test_llm_failure_returns_error_result() -> None:
     r = agent([LLMError("all models failed")])[0].run("q")
     assert r.status == "error" and r.reason == "llm_unavailable"
     assert "unavailable" in r.answer
+
+
+def test_ungrounded_number_triggers_one_repair_that_can_use_tools() -> None:
+    a, llm = agent(
+        [
+            call("financial_sql", question="Apple FY2024 revenue"),
+            say("Revenue was $400 billion [sql1]."),  # invented
+            call("calculator", expression="391035000000 / 1000000000"),
+            say("Revenue was $391.0 billion [sql1]."),
+        ]
+    )
+    r = a.run("Apple revenue?")
+    assert r.status == "answered" and r.answer == "Revenue was $391.0 billion [sql1]."
+    assert "number_repair_attempted" in r.flags and "ungrounded_numbers" not in r.flags
+    assert "$400 billion" in llm.requests[2]["messages"][-1].text  # type: ignore[index]
+
+
+def test_persistent_ungrounded_number_is_flagged_not_hidden() -> None:
+    a, _ = agent(
+        [
+            call("financial_sql", question="q"),
+            say("Revenue was $400 billion [sql1]."),
+            say("Revenue was $400 billion [sql1]."),
+        ]
+    )
+    r = a.run("q")
+    assert r.status == "answered" and r.ungrounded == ["$400 billion"]
+    assert "ungrounded_numbers" in r.flags
+
+
+def test_invented_calculator_input_is_caught() -> None:
+    a, _ = agent(
+        [
+            call("financial_sql", question="q"),
+            call("calculator", expression="pct_change(391035000000, 450000000000)"),
+            say("Up 15.1% [sql1]."),
+            say("Up 15.1% [sql1]."),
+        ]
+    )
+    r = a.run("q")
+    assert r.ungrounded == ["450000000000"]
+
+
+def test_refusals_skip_the_number_check() -> None:
+    r = agent([say("INSUFFICIENT_EVIDENCE: no 2019 data, only 2022-2024.")])[0].run("2019?")
+    assert r.status == "refused" and not r.flags
