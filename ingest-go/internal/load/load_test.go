@@ -12,6 +12,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/vasusadariya/finrag/ingest-go/internal/chunk"
 	"github.com/vasusadariya/finrag/ingest-go/internal/parse"
+	"github.com/vasusadariya/finrag/ingest-go/internal/xbrl"
 )
 
 func migratedDB(t *testing.T) *sql.DB {
@@ -232,5 +233,67 @@ func TestReadEmbeddings(t *testing.T) {
 func TestVectorLiteral(t *testing.T) {
 	if got := vectorLiteral([]float32{1, 0.5, -2.25}); got != "[1,0.5,-2.25]" {
 		t.Error(got)
+	}
+}
+
+func sampleFacts() []xbrl.Fact {
+	s := time.Date(2024, 9, 29, 0, 0, 0, 0, time.UTC)
+	e := time.Date(2025, 9, 27, 0, 0, 0, 0, time.UTC)
+	return []xbrl.Fact{
+		{Concept: "NetIncomeLoss", Unit: "USD", PeriodStart: &s, PeriodEnd: e, Value: "112010000000", FiscalYear: 2025, FiscalPeriod: "FY", Accession: "0000000001-26-000001"},
+		{Concept: "Assets", Unit: "USD", PeriodEnd: e, Value: "359241000000", FiscalYear: 2025, FiscalPeriod: "FY", Accession: "0000000001-26-000001"},
+		{Concept: "EarningsPerShareDiluted", Unit: "USD/shares", PeriodStart: &s, PeriodEnd: e, Value: "7.46", FiscalYear: 2025, FiscalPeriod: "FY", Accession: "0000000009-20-000009"},
+	}
+}
+
+func TestReplaceFactsIdempotent(t *testing.T) {
+	db := migratedDB(t)
+	l, cid, fid := setup(t, db)
+	ids := map[string]int{"0000000001-26-000001": fid}
+	for run := 0; run < 3; run++ {
+		if err := l.ReplaceFacts(context.Background(), cid, sampleFacts(), ids); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if n := count(t, db, "SELECT count(*) FROM xbrl_facts"); n != 3 {
+		t.Errorf("facts = %d, want 3 (instant facts have NULL period_start, so only replace-all keeps them unique)", n)
+	}
+	if n := count(t, db, "SELECT count(*) FROM xbrl_facts WHERE filing_id = $1", fid); n != 2 {
+		t.Errorf("linked to filing: %d, want 2", n)
+	}
+	if n := count(t, db, "SELECT count(*) FROM xbrl_facts WHERE filing_id IS NULL AND accession = '0000000009-20-000009'"); n != 1 {
+		t.Errorf("unknown-filing fact should have NULL filing_id")
+	}
+	var v string
+	if err := db.QueryRow(`SELECT value::text FROM xbrl_facts WHERE concept='EarningsPerShareDiluted'`).Scan(&v); err != nil || v != "7.46" {
+		t.Errorf("decimal preserved? %q %v", v, err)
+	}
+	// facts that vanished upstream are removed
+	if err := l.ReplaceFacts(context.Background(), cid, sampleFacts()[:1], ids); err != nil {
+		t.Fatal(err)
+	}
+	if n := count(t, db, "SELECT count(*) FROM xbrl_facts"); n != 1 {
+		t.Errorf("after shrink: %d", n)
+	}
+}
+
+func TestReplaceFactsOnlyTouchesOneCompany(t *testing.T) {
+	db := migratedDB(t)
+	l, cid, fid := setup(t, db)
+	other, err := l.UpsertCompany(context.Background(), Company{CIK: "2", Ticker: "OTHR", Name: "Other"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	ids := map[string]int{"0000000001-26-000001": fid}
+	for _, c := range []int{cid, other} {
+		if err := l.ReplaceFacts(context.Background(), c, sampleFacts(), ids); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := l.ReplaceFacts(context.Background(), cid, nil, ids); err != nil {
+		t.Fatal(err)
+	}
+	if n := count(t, db, "SELECT count(*) FROM xbrl_facts WHERE company_id = $1", other); n != 3 {
+		t.Errorf("other company's facts changed: %d", n)
 	}
 }

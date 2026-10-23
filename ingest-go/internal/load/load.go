@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/vasusadariya/finrag/ingest-go/internal/chunk"
+	"github.com/vasusadariya/finrag/ingest-go/internal/xbrl"
 )
 
 // EmbeddingDim must match the vector(768) column.
@@ -146,4 +147,39 @@ func ReadEmbeddings(r io.Reader) (map[string][]float32, error) {
 		out[row.Hash] = row.Embedding
 	}
 	return out, sc.Err()
+}
+
+// ReplaceFacts makes a company's stored XBRL facts exactly equal to facts, in one transaction (idempotent:
+// re-running never duplicates, and facts that disappeared upstream are removed). filingIDs maps an
+// accession number to filings.id; facts reported by filings we have not loaded get a NULL filing_id.
+func (l Loader) ReplaceFacts(ctx context.Context, companyID int, facts []xbrl.Fact, filingIDs map[string]int) error {
+	tx, err := l.DB.BeginTx(ctx, nil)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = tx.Rollback() }()
+	if _, err := tx.ExecContext(ctx, `DELETE FROM xbrl_facts WHERE company_id = $1`, companyID); err != nil {
+		return err
+	}
+	stmt, err := tx.PrepareContext(ctx, `
+INSERT INTO xbrl_facts (company_id, filing_id, concept, fiscal_year, fiscal_period, period_start, period_end, unit, value, accession)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::numeric, $10)`)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = stmt.Close() }()
+	for _, f := range facts {
+		var filingID, start any
+		if id, ok := filingIDs[f.Accession]; ok {
+			filingID = id
+		}
+		if f.PeriodStart != nil {
+			start = *f.PeriodStart
+		}
+		if _, err := stmt.ExecContext(ctx, companyID, filingID, f.Concept, f.FiscalYear, f.FiscalPeriod, start, f.PeriodEnd,
+			f.Unit, f.Value, f.Accession); err != nil {
+			return fmt.Errorf("load: insert fact %s %s: %w", f.Concept, f.PeriodEnd.Format("2006-01-02"), err)
+		}
+	}
+	return tx.Commit()
 }

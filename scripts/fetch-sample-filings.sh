@@ -19,4 +19,14 @@ META https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-202
 JPM https://www.sec.gov/Archives/edgar/data/19617/000162828026008131/jpm-20251231.htm
 XOM https://www.sec.gov/Archives/edgar/data/34088/000003408826000045/xom-20251231.htm
 LIST
-echo "filings in $DIR"
+
+# XBRL companyfacts for the same companies (CIK padded to 10 digits)
+FACTS="$DIR/../facts"
+mkdir -p "$FACTS"
+for kv in AAPL:320193 MSFT:789019 GOOGL:1652044 AMZN:1018724 NVDA:1045810 META:1326801 JPM:19617 XOM:34088; do
+  t=${kv%%:*}; c=$(printf "%010d" "${kv##*:}")
+  [ -s "$FACTS/$t.json" ] && continue
+  curl -sS --fail --compressed -A "$UA" "https://data.sec.gov/api/xbrl/companyfacts/CIK$c.json" -o "$FACTS/$t.json"
+  sleep 0.2
+done
+echo "filings in $DIR, facts in $FACTS"

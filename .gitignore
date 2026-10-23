@@ -13,3 +13,4 @@ data/
 *.tfstate*
 .terraform/
 ingest-go/testdata/filings/
+ingest-go/testdata/facts/
