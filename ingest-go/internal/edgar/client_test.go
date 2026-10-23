@@ -1,12 +1,14 @@
 package edgar
 
 import (
+	"compress/gzip"
 	"context"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -206,5 +208,24 @@ func TestContextCancel(t *testing.T) {
 	}
 	if time.Since(start) > 500*time.Millisecond {
 		t.Error("cancel not honoured promptly")
+	}
+}
+
+func TestDecodesGzipResponses(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
+			_, _ = w.Write([]byte("plain"))
+			return
+		}
+		w.Header().Set("Content-Encoding", "gzip")
+		zw := gzip.NewWriter(w)
+		_, _ = zw.Write([]byte("zipped"))
+		_ = zw.Close()
+	}))
+	defer srv.Close()
+	c := newClient(t, Config{})
+	b, err := c.Get(context.Background(), srv.URL)
+	if err != nil || string(b) != "zipped" {
+		t.Fatalf("got %q, %v", b, err)
 	}
 }

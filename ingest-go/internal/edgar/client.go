@@ -115,7 +115,6 @@ func (c *Client) fetch(ctx context.Context, url string) ([]byte, error) {
 		return nil, err
 	}
 	req.Header.Set("User-Agent", c.cfg.UserAgent)
-	req.Header.Set("Accept-Encoding", "gzip")
 	resp, err := c.cfg.HTTP.Do(req)
 	if err != nil {
 		if ctx.Err() != nil {
