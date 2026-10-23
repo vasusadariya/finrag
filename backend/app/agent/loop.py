@@ -103,12 +103,13 @@ class Agent:
             result.reason = "llm_unavailable"
             result.answer = "The language model is unavailable right now. Please try again."
             log.error("agent llm failure", extra={"error": str(e)})
+        if final is not None:
+            final = self._verify_citations(final, messages, bundle, result)
+            final = self._verify_numbers(final, question, messages, bundle, result)
+            self.finish(final, bundle, result)
+        result.sql_usage = bundle.sql.usage
         result.latency_s = time.perf_counter() - started
-        if final is None:
-            return result
-        final = self._verify_citations(final, messages, bundle, result)
-        final = self._verify_numbers(final, question, messages, bundle, result)
-        return self.finish(final, bundle, result)
+        return result
 
     def _verify_citations(
         self, final: str, messages: list[Message], bundle: ToolBundle, result: AgentResult

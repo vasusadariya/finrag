@@ -1,0 +1,2 @@
+DROP INDEX IF EXISTS query_traces_created_idx;
+ALTER TABLE query_traces DROP COLUMN IF EXISTS meta, DROP COLUMN IF EXISTS reason, DROP COLUMN IF EXISTS status;

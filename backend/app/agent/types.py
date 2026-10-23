@@ -41,5 +41,6 @@ class AgentResult:
     usage: Usage = field(default_factory=Usage)
     latency_s: float = 0.0
     models: list[str] = field(default_factory=list)
+    sql_usage: Usage = field(default_factory=Usage)  # tokens spent inside the financial_sql tool
     ungrounded: list[str] = field(default_factory=list)  # numbers no tool output supports
     evidence: list[dict[str, Any]] = field(default_factory=list, repr=False)  # raw tool outputs
