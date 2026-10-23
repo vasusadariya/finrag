@@ -25,6 +25,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ids", help="comma separated question ids")
     ap.add_argument("--records", type=Path, default=RECORDS)
     ap.add_argument("--fresh", action="store_true", help="ignore existing records")
+    ap.add_argument("--report", type=Path, default=REPORT)
+    ap.add_argument("--details", type=Path, default=DETAILS)
     ap.add_argument("--title", default="Agent evaluation (variant D)")
     args = ap.parse_args(argv)
 
@@ -55,9 +57,9 @@ def main(argv: list[str] | None = None) -> int:
     with connect(settings.database_url) as conn:
         scored = score(questions, records, conn, judge_llm)
     summary = summarize(scored)
-    REPORT.write_text(render_report(summary, scored, args.title))
-    dump_details(DETAILS, scored)
-    print(REPORT.read_text())
+    args.report.write_text(render_report(summary, scored, args.title))
+    dump_details(args.details, scored)
+    print(args.report.read_text())
     return 0
 
 

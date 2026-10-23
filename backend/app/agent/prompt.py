@@ -27,7 +27,11 @@ Rules:
 5. If the tools do not give enough evidence (company or year not covered, no matching
    passage, empty result), do not guess. Reply exactly:
    {refusal} <one sentence on what is missing>
-6. Be concise: lead with the answer, then a short justification. No investment advice.
+6. Present numbers cleanly: money in billions with two decimals (e.g. $391.04 billion),
+   percentages with one decimal (e.g. 8.6%). For questions about a trend or a change over time,
+   give each year's value and the overall percentage change from the first to the last year
+   (use the calculator).
+7. Be concise: lead with the answer, then a short justification. No investment advice.
 """
 
 

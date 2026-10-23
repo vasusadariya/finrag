@@ -88,9 +88,15 @@ def run_questions(
 # ---- scoring --------------------------------------------------------------------------------
 
 
-def numbers_match(gold: str, answer: str) -> bool:
-    """Every non-trivial number in the gold answer appears in the answer (within rounding)."""
-    gold_nums = [n for n in extract_numbers(gold) if not _trivial(n)]
+def numbers_match(gold: str, answer: str, *, ignore_percent: bool = False) -> bool:
+    """Every non-trivial number in the gold answer appears in the answer (within rounding).
+
+    ``ignore_percent`` drops percentages from the gold: trend/cross-year golds append a derived
+    "overall change" the question did not necessarily ask for.
+    """
+    gold_nums = [
+        n for n in extract_numbers(gold) if not _trivial(n) and not (ignore_percent and n.percent)
+    ]
     ans_nums = extract_numbers(answer)
     if not gold_nums:
         return False
@@ -197,6 +203,9 @@ def score(
             if q.xbrl_refs:
                 s["correct"] = numbers_match(q.gold_answer, rec["answer"])
                 s["correct_by"] = "numbers"
+                s["correct_values"] = numbers_match(
+                    q.gold_answer, rec["answer"], ignore_percent=True
+                )
             elif llm is not None:
                 j = judge(llm, CORRECT_PROMPT.format(question=q.question, gold=q.gold_answer,
                                                      answer=rec["answer"]))  # fmt: skip
@@ -253,6 +262,12 @@ def summarize(scored: list[dict[str, Any]]) -> dict[str, Any]:
         "errors": sum(1 for s in scored if s["status"] == "error"),
         "answer_correct": _rate([bool(c) for c in correct]),
         "answer_correct_of_all_answerable": _rate([bool(s.get("correct")) for s in ans]),
+        "numeric_values_only": _rate(
+            [bool(s["correct_values"]) for s in ans if "correct_values" in s]
+        ),
+        "numeric_strict": _rate(
+            [bool(s["correct"]) for s in ans if s.get("correct_by") == "numbers"]
+        ),
         "faithful": _rate([bool(s["faithful"]) for s in scored if s.get("faithful") is not None]),
         "citation_hit": _rate(
             [bool(s["citation_hit"]) for s in ans if s.get("citation_hit") is not None]
@@ -279,6 +294,9 @@ def render_report(summary: dict[str, Any], scored: list[dict[str, Any]], title: 
         ("answer correct (of answered answerable)", _pct(s["answer_correct"])),
         ("answer correct (of all answerable; a refusal counts as wrong)",
          _pct(s["answer_correct_of_all_answerable"])),
+        ("numeric questions: all gold numbers incl. derived % (strict)", _pct(s["numeric_strict"])),
+        ("numeric questions: gold base values only (percentages ignored)",
+         _pct(s["numeric_values_only"])),
         ("faithful to cited evidence (LLM judge)", _pct(s["faithful"])),
         ("cited passage matches a gold source", _pct(s["citation_hit"])),
         ("refused when unanswerable", _pct(s["refusal_on_unanswerable"])),

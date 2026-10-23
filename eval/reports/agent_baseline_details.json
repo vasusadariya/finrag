@@ -1,0 +1,4129 @@
+[
+ {
+  "id": "q001",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple's corporate headquarters is located in Cupertino, California [c7].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c7",
+    "chunk_id": 379,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2023,
+    "section": "Item 2",
+    "page": 19,
+    "accession": "0000320193-23-000106",
+    "label": "AAPL FY2023 10-K, Item 2, p.19"
+   }
+  ],
+  "tools": [
+   "filing_search",
+   "filing_search"
+  ],
+  "tool_ok": [
+   true,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 26.21,
+  "tokens": 11263,
+  "cost_usd": 0.001149,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate correctly identifies Apple's corporate headquarters as Cupertino, California.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q002",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Microsoft's corporate headquarters are located in Redmond, Washington [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 569,
+    "ticker": "MSFT",
+    "company": "Microsoft Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 2",
+    "page": 31,
+    "accession": "0001193125-26-323660",
+    "label": "MSFT FY2026 10-K, Item 2, p.31"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 9.74,
+  "tokens": 4242,
+  "cost_usd": 0.000437,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate correctly identifies Microsoft's headquarters as Redmond, Washington.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q003",
+  "type": "factual",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "The 10-K filings retrieved do not contain the specific text stating Alphabet's headquarters address.",
+  "flags": [
+   "citation_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [
+   "filing_search",
+   "filing_search",
+   "filing_search",
+   "filing_search"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 88.37,
+  "tokens": 28181,
+  "cost_usd": 0.002896,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": true
+ },
+ {
+  "id": "q004",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Meta's corporate headquarters are located in Menlo Park, California [c6]. As of December 31, 2025, Meta owned and leased approximately 10 million square feet of office and building space for its corporate headquarters and in the surrounding areas, which included approximately two million square feet of unoccupied office and building space that it plans to either sublease, early terminate, or abandon [c6].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c6",
+    "chunk_id": 3633,
+    "ticker": "META",
+    "company": "Meta Platforms, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 2",
+    "page": 51,
+    "accession": "0001628280-26-003942",
+    "label": "META FY2025 10-K, Item 2, p.51"
+   }
+  ],
+  "tools": [
+   "filing_search",
+   "filing_search",
+   "filing_search"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 51.68,
+  "tokens": 16749,
+  "cost_usd": 0.001761,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately provides the headquarters location and the approximate square footage of office space owned and leased as of December 31, 2025.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q005",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA is headquartered in Santa Clara, California [c5].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c5",
+    "chunk_id": 2671,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 1",
+    "page": 5,
+    "accession": "0001045810-26-000021",
+    "label": "NVDA FY2026 10-K, Item 1, p.5"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 17.22,
+  "tokens": 4369,
+  "cost_usd": 0.000455,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate correctly states that NVIDIA is headquartered in Santa Clara, California.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q006",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "As of September 27, 2025, Apple had approximately 166,000 full-time equivalent employees [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 11,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 6,
+    "accession": "0000320193-25-000079",
+    "label": "AAPL FY2025 10-K, Item 1, p.6"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 23.63,
+  "tokens": 4145,
+  "cost_usd": 0.00044,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate's answer matches the reference answer by stating approximately 166,000 full-time equivalent employees.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q007",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "At the end of fiscal year 2026, NVIDIA had approximately 42,000 employees across 38 countries [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2697,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 1",
+    "page": 11,
+    "accession": "0001045810-26-000021",
+    "label": "NVDA FY2026 10-K, Item 1, p.11"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 69.6,
+  "tokens": 4425,
+  "cost_usd": 0.000465,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate correctly states both the number of employees and countries as provided in the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q008",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Meta had a global workforce of 78,865 employees as of December 31, 2025 [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 3467,
+    "ticker": "META",
+    "company": "Meta Platforms, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 9,
+    "accession": "0001628280-26-003942",
+    "label": "META FY2025 10-K, Item 1, p.9"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 18.04,
+  "tokens": 4212,
+  "cost_usd": 0.000446,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate's answer correctly states the global workforce number of 78,865 as of December 31, 2025.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q009",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon employed approximately 1,576,000 full-time and part-time employees as of December 31, 2025 [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2007,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 4,
+    "accession": "0001018724-26-000004",
+    "label": "AMZN FY2025 10-K, Item 1, p.4"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 44.79,
+  "tokens": 4508,
+  "cost_usd": 0.000478,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate answer accurately matches the employee count and timeframe provided in the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q010",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Alphabet had 190,820 employees as of December 31, 2025 [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 1235,
+    "ticker": "GOOGL",
+    "company": "Alphabet Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 8,
+    "accession": "0001652044-26-000018",
+    "label": "GOOGL FY2025 10-K, Item 1, p.8"
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "filing_search"
+  ],
+  "tool_ok": [
+   false,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 28.79,
+  "tokens": 7552,
+  "cost_usd": 0.001211,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate answer correctly states the exact number of employees from the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q011",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon\u2019s three reportable segments are:\n1. **North America** [c1]\n2. **International** [c1]\n3. **AWS (Amazon Web Services)** [c1]",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2421,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 8",
+    "page": 65,
+    "accession": "0001018724-25-000004",
+    "label": "AMZN FY2024 10-K, Item 8, p.65"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 19.74,
+  "tokens": 4786,
+  "cost_usd": 0.000506,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately lists Amazon's three reportable segments as stated in the reference answer.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q012",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Alphabet reports its business through two segments for Google\u2014**Google Services** and **Google Cloud**\u2014along with all non-Google businesses collectively referred to as **Other Bets** [c1]. \n\n* **Google Services:** Comprises products and platforms such as ads, Android, Chrome, hardware devices, Gmail, Google Drive, Google Maps, Google Photos, Google Play, Search, and YouTube [c3].\n* **Google Cloud:** Includes infrastructure and platform services, data analytics platforms, and collaboration tools (such as Google Workspace and Gemini for Google Cloud) [c5].\n* **Other Bets:** Includes earlier-stage and developing businesses outside of Google that are focused on solving big problems across various industries (such as healthcare and transportation, e.g., Waymo) [c5]. \n\nAdditionally, Alphabet maintains centralized AI-related research and development activities at the Alphabet level to support these businesses [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 1482,
+    "ticker": "GOOGL",
+    "company": "Alphabet Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 5,
+    "accession": "0001652044-25-000014",
+    "label": "GOOGL FY2024 10-K, Item 1, p.5"
+   },
+   {
+    "type": "filing",
+    "id": "c3",
+    "chunk_id": 1490,
+    "ticker": "GOOGL",
+    "company": "Alphabet Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 7,
+    "accession": "0001652044-25-000014",
+    "label": "GOOGL FY2024 10-K, Item 1, p.7"
+   },
+   {
+    "type": "filing",
+    "id": "c5",
+    "chunk_id": 1496,
+    "ticker": "GOOGL",
+    "company": "Alphabet Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 9,
+    "accession": "0001652044-25-000014",
+    "label": "GOOGL FY2024 10-K, Item 1, p.9"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 9.71,
+  "tokens": 4403,
+  "cost_usd": 0.000512,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately identifies the two Google segments and Other Bets, matching the reference answer while adding helpful details.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q013",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "JPMorgan Chase organizes its activities into three reportable business segments, along with a Corporate segment [c3]:\n\n1. **Consumer & Community Banking (CCB)** \u2013 The firm's consumer business segment [c1].\n2. **Commercial & Investment Bank (CIB)** \u2013 A wholesale business segment formed by combining the former Corporate & Investment Bank and Commercial Banking segments [c1, c4].\n3. **Asset & Wealth Management (AWM)** \u2013 A wholesale business segment [c1].\n4. **Corporate** \u2013 Encompasses remaining activities not included in the reportable business segments [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c3",
+    "chunk_id": 4225,
+    "ticker": "JPM",
+    "company": "JPMorgan Chase & Co.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 3,
+    "accession": "0001628280-26-008131",
+    "label": "JPM FY2025 10-K, Item 1, p.3"
+   },
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 6529,
+    "ticker": "JPM",
+    "company": "JPMorgan Chase & Co.",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 3,
+    "accession": "0000019617-25-000270",
+    "label": "JPM FY2024 10-K, Item 1, p.3"
+   },
+   {
+    "type": "filing",
+    "id": "c4",
+    "chunk_id": 6528,
+    "ticker": "JPM",
+    "company": "JPMorgan Chase & Co.",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 3,
+    "accession": "0000019617-25-000270",
+    "label": "JPM FY2024 10-K, Item 1, p.3"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 35.73,
+  "tokens": 4467,
+  "cost_usd": 0.0005,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate correctly identifies all three business segments and the Corporate segment, matching the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q014",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA's Compute & Networking segment includes:\n\n* **Data Center:** Accelerated computing platforms, networking platforms (such as Quantum InfiniBand and Spectrum Ethernet), AI solutions, software (including NVIDIA AI Enterprise), and DGX Cloud computing services [c1, c2, c3].\n* **Automotive:** Automotive platforms, autonomous and electric vehicle solutions, and related development agreements [c1, c2, c3].\n* **Embedded and Robotics:** Jetson for robotics and other embedded platforms [c2, c3].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2671,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 1",
+    "page": 5,
+    "accession": "0001045810-26-000021",
+    "label": "NVDA FY2026 10-K, Item 1, p.5"
+   },
+   {
+    "type": "filing",
+    "id": "c2",
+    "chunk_id": 2927,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 5,
+    "accession": "0001045810-25-000023",
+    "label": "NVDA FY2025 10-K, Item 1, p.5"
+   },
+   {
+    "type": "filing",
+    "id": "c3",
+    "chunk_id": 3196,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 5,
+    "accession": "0001045810-24-000029",
+    "label": "NVDA FY2024 10-K, Item 1, p.5"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 20.6,
+  "tokens": 4229,
+  "cost_usd": 0.000468,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate includes all key facts from the reference answer along with correct extra details.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q015",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon's common stock trades on the **Nasdaq Global Select Market** under the symbol \"AMZN\" [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2290,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 5",
+    "page": 19,
+    "accession": "0001018724-25-000004",
+    "label": "AMZN FY2024 10-K, Item 5, p.19"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 21.02,
+  "tokens": 2836,
+  "cost_usd": 0.000305,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately identifies the exchange and ticker symbol matching the reference answer.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q016",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon reported **12,165** shareholders of record of its common stock as of January 28, 2026 [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2068,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 5",
+    "page": 19,
+    "accession": "0001018724-26-000004",
+    "label": "AMZN FY2025 10-K, Item 5, p.19"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 12.72,
+  "tokens": 2886,
+  "cost_usd": 0.000316,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately states the correct number of shareholders of record as 12,165.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q017",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA paid **$974 million** ($974 million or $0.04 per common share) in cash dividends to shareholders in fiscal year 2026 [c1, c3].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2857,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 8",
+    "page": 54,
+    "accession": "0001045810-26-000021",
+    "label": "NVDA FY2026 10-K, Item 8, p.54"
+   },
+   {
+    "type": "filing",
+    "id": "c3",
+    "chunk_id": 2913,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 8",
+    "page": 76,
+    "accession": "0001045810-26-000021",
+    "label": "NVDA FY2026 10-K, Item 8, p.76"
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "filing_search"
+  ],
+  "tool_ok": [
+   true,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 60.89,
+  "tokens": 9422,
+  "cost_usd": 0.001627,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate correctly stated the cash dividend amount of $974 million.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q018",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple\u2019s fiscal year is a 52- or 53-week period that ends on the last Saturday of September [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 388,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2023,
+    "section": "Item 7",
+    "page": 22,
+    "accession": "0000320193-23-000106",
+    "label": "AAPL FY2023 10-K, Item 7, p.22"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 23.16,
+  "tokens": 4777,
+  "cost_usd": 0.000496,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate answer accurately states that Apple's fiscal year ends on the last Saturday of September.",
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q019",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Microsoft employed approximately 228,000 people on a full-time basis as of June 30, 2025 [c1]. \n\nOf these employees, 125,000 were located in the U.S. and 103,000 internationally [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 732,
+    "ticker": "MSFT",
+    "company": "Microsoft Corporation",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 9,
+    "accession": "0000950170-25-100235",
+    "label": "MSFT FY2025 10-K, Item 1, p.9"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 49.53,
+  "tokens": 4351,
+  "cost_usd": 0.000472,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately provides the total number of full-time employees and the breakdown by U.S. and international locations as stated in the reference.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q020",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple has been subject to formal noncompliance and other investigations by the European Commission under the Digital Markets Act (DMA), specifically regarding:\n1. **Article 5(4) Investigation:** Relates to how developers communicate and promote offers to end users for apps distributed through the App Store and how they conclude contracts with end users [c1]. Apple was fined \u20ac500 million and issued a cease and desist order under this investigation on April 23, 2025, which Apple has appealed [c1].\n2. **Article 6(4) Investigation:** Opened on June 24, 2024, regarding whether Apple's new contractual requirements for third-party app developers and app marketplaces violate the DMA [c1].\n3. **Previous/Initial Investigations:** Included an investigation under Article 6(3) of the DMA concerning default settings, app uninstallation, and web browser choice screens on iOS [c2].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 72,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 3",
+    "page": 20,
+    "accession": "0000320193-25-000079",
+    "label": "AAPL FY2025 10-K, Item 3, p.20"
+   },
+   {
+    "type": "filing",
+    "id": "c2",
+    "chunk_id": 229,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 3",
+    "page": 20,
+    "accession": "0000320193-24-000123",
+    "label": "AAPL FY2024 10-K, Item 3, p.20"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 16.07,
+  "tokens": 4334,
+  "cost_usd": 0.000503,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately identifies the European Commission investigations under the Digital Markets Act, providing more detail than the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q021",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple's total net sales in fiscal year 2025 were $416,161,000,000 (or approximately $416.16 billion) [sql2].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS revenue_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AAPL' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'SalesRevenueNet') AND x.fiscal_year = 2025 AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd"
+    ],
+    "rows": [
+     [
+      "AAPL",
+      2025,
+      416161000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 22.77,
+  "tokens": 8579,
+  "cost_usd": 0.002228,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q022",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA's revenue in fiscal year 2026 was $215,938,000,000 [sql3].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql3",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS revenue_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'NVDA' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') AND x.fiscal_year = 2026 AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd"
+    ],
+    "rows": [
+     [
+      "NVDA",
+      2026,
+      215938000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "financial_sql",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 56.07,
+  "tokens": 14413,
+  "cost_usd": 0.003596,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q023",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "Microsoft's net income in fiscal year 2026 was $133.75 billion ($133,749,000,000) [sql1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'MSFT' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2026 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "MSFT",
+      2026,
+      133749000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 46.53,
+  "tokens": 4764,
+  "cost_usd": 0.001092,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q024",
+  "type": "factual",
+  "status": "answered",
+  "reason": null,
+  "answer": "ExxonMobil's net income in fiscal year 2025 was $28.84 billion ($28,844,000,000) [sql1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'XOM' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2025 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "XOM",
+      2025,
+      28844000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 18.68,
+  "tokens": 4760,
+  "cost_usd": 0.001076,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q025",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple's net sales grew steadily over fiscal years 2023 to 2025:\n\n* **FY 2023:** $383,285,000,000 [sql2]\n* **FY 2024:** $391,035,000,000 [sql2] (a 2.02% increase from FY 2023)\n* **FY 2025:** $416,161,000,000 [sql2] (a 6.43% increase from FY 2024)\n\nOverall, net sales increased by 8.58% from FY 2023 to FY 2025.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS net_sales_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AAPL' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax') AND x.fiscal_year IN (2023, 2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_sales_usd"
+    ],
+    "rows": [
+     [
+      "AAPL",
+      2023,
+      383285000000
+     ],
+     [
+      "AAPL",
+      2024,
+      391035000000
+     ],
+     [
+      "AAPL",
+      2025,
+      416161000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "calculator",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 39.03,
+  "tokens": 13635,
+  "cost_usd": 0.002969,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q026",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA's revenue trend for fiscal years 2024 through 2026 is as follows:\n\n* **Fiscal Year 2024:** $60,922,000,000 [sql2]\n* **Fiscal Year 2025:** $130,497,000,000 (an increase of 114.20%) [sql2]\n* **Fiscal Year 2026:** $215,938,000,000 (an increase of 65.47%) [sql2]",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS revenue_full_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'NVDA' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax') AND x.fiscal_year IN (2024, 2025, 2026) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_full_usd"
+    ],
+    "rows": [
+     [
+      "NVDA",
+      2024,
+      60922000000
+     ],
+     [
+      "NVDA",
+      2025,
+      130497000000
+     ],
+     [
+      "NVDA",
+      2026,
+      215938000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 31.41,
+  "tokens": 13306,
+  "cost_usd": 0.002929,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q027",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "Microsoft's net income changed from 88,136,000,000 USD in fiscal 2024 to 133,749,000,000 USD in fiscal 2026 [sql2], an increase of approximately 51.75%. \n\n- **Fiscal 2024:** 88,136,000,000 USD [sql2]\n- **Fiscal 2025:** 101,832,000,000 USD [sql2]\n- **Fiscal 2026:** 133,749,000,000 USD [sql2]",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'MSFT' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year IN (2024, 2025, 2026) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "MSFT",
+      2024,
+      88136000000
+     ],
+     [
+      "MSFT",
+      2025,
+      101832000000
+     ],
+     [
+      "MSFT",
+      2026,
+      133749000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 57.82,
+  "tokens": 15221,
+  "cost_usd": 0.00305,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q028",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon's operating income increased each year from 2023 to 2025:\n\n* **2023:** $36,852,000,000 [sql3]\n* **2024:** $68,593,000,000 [sql3]\n* **2025:** $79,975,000,000 [sql3]",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql3",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS operating_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AMZN' AND x.concept = 'OperatingIncomeLoss' AND x.fiscal_year IN (2023, 2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "operating_income_usd"
+    ],
+    "rows": [
+     [
+      "AMZN",
+      2023,
+      36852000000
+     ],
+     [
+      "AMZN",
+      2024,
+      68593000000
+     ],
+     [
+      "AMZN",
+      2025,
+      79975000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 73.58,
+  "tokens": 17485,
+  "cost_usd": 0.003944,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q029",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "Alphabet's research and development (R&D) expense evolved as follows:\n* **2023:** $45,427,000,000 [sql2]\n* **2024:** $49,326,000,000 [sql2]\n* **2025:** $61,087,000,000 [sql2]\n\nR&D expense increased by 8.58300129878707% from 2023 to 2024, and by 23.843409155415% from 2024 to 2025, representing a CAGR of 15.9624467539757% over the 2023\u20132025 period.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS research_and_development_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'GOOGL' AND x.concept = 'ResearchAndDevelopmentExpense' AND x.fiscal_year IN (2023, 2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "research_and_development_usd"
+    ],
+    "rows": [
+     [
+      "GOOGL",
+      2023,
+      45427000000
+     ],
+     [
+      "GOOGL",
+      2024,
+      49326000000
+     ],
+     [
+      "GOOGL",
+      2025,
+      61087000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "calculator",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 99.47,
+  "tokens": 13628,
+  "cost_usd": 0.002934,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q030",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "Meta\u2019s cash flow from operating activities showed a strong upward trend from 2023 to 2025, increasing each year [sql2]:\n- **2023:** $71,113,000,000 [sql2]\n- **2024:** $91,328,000,000 [sql2]\n- **2025:** $115,800,000,000 [sql2]",
+  "flags": [
+   "number_repair_attempted",
+   "step_limit_reached"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS operating_cash_flow_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'META' AND x.concept = 'NetCashProvidedByUsedInOperatingActivities' AND x.fiscal_year IN (2023, 2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "operating_cash_flow_usd"
+    ],
+    "rows": [
+     [
+      "META",
+      2023,
+      71113000000
+     ],
+     [
+      "META",
+      2024,
+      91328000000
+     ],
+     [
+      "META",
+      2025,
+      115800000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 9,
+  "latency_s": 102.24,
+  "tokens": 21366,
+  "cost_usd": 0.003708,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q031",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "ExxonMobil's net income decreased from $36,010,000,000 in 2023 to $33,680,000,000 in 2024, and further decreased to $28,844,000,000 in 2025 [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'XOM' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year IN (2023, 2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "XOM",
+      2023,
+      36010000000
+     ],
+     [
+      "XOM",
+      2024,
+      33680000000
+     ],
+     [
+      "XOM",
+      2025,
+      28844000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "calculator",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 76.84,
+  "tokens": 13280,
+  "cost_usd": 0.002829,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q032",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "JPMorgan Chase's net income developed as follows:\n- **2023:** $49,552,000,000 [sql2]\n- **2024:** $58,471,000,000 [sql2] (an increase of 18.0% from 2023)\n- **2025:** $57,048,000,000 [sql2] (a decrease of 2.4% from 2024)\n\nOverall, net income grew at a CAGR of 7.3% from 2023 to 2025.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'JPM' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year IN (2023, 2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "JPM",
+      2023,
+      49552000000
+     ],
+     [
+      "JPM",
+      2024,
+      58471000000
+     ],
+     [
+      "JPM",
+      2025,
+      57048000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "calculator",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 22.02,
+  "tokens": 13319,
+  "cost_usd": 0.002854,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q033",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple's share repurchase spending (payments for repurchase of common stock) was $77,550,000,000 in fiscal 2023, increased to $94,949,000,000 in fiscal 2024 (an increase of 22.44%), and then decreased to $90,711,000,000 in fiscal 2025 (a decrease of 4.46%) [sql2]. Overall, from fiscal 2023 to fiscal 2025, share repurchase spending increased by 16.97% [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS share_repurchases_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AAPL' AND x.concept = 'PaymentsForRepurchaseOfCommonStock' AND x.fiscal_year IN (2023, 2024, 2025) AND x.unit = 'USD' ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "share_repurchases_usd"
+    ],
+    "rows": [
+     [
+      "AAPL",
+      2023,
+      77550000000
+     ],
+     [
+      "AAPL",
+      2024,
+      94949000000
+     ],
+     [
+      "AAPL",
+      2025,
+      90711000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "calculator",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 30.13,
+  "tokens": 13407,
+  "cost_usd": 0.002851,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q034",
+  "type": "trend",
+  "status": "answered",
+  "reason": null,
+  "answer": "Microsoft's research and development (R&D) expenses for fiscal years 2024 to 2026 are as follows:\n\n* **FY 2024:** $29,510,000,000 [sql2]\n* **FY 2025:** $32,488,000,000 (an increase of 10.09%) [sql2]\n* **FY 2026:** $35,562,000,000 (an increase of 9.46%) [sql2]",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS research_and_development_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'MSFT' AND x.concept = 'ResearchAndDevelopmentExpense' AND x.fiscal_year IN (2024, 2025, 2026) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "research_and_development_usd"
+    ],
+    "rows": [
+     [
+      "MSFT",
+      2024,
+      29510000000
+     ],
+     [
+      "MSFT",
+      2025,
+      32488000000
+     ],
+     [
+      "MSFT",
+      2026,
+      35562000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 61.39,
+  "tokens": 15652,
+  "cost_usd": 0.003114,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q035",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple's R&D expense increased from $31,370,000,000 in fiscal 2024 to $34,550,000,000 in fiscal 2025 [sql2], an increase of $3,180,000,000 or 10.14%.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS research_and_development_expense_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AAPL' AND x.concept = 'ResearchAndDevelopmentExpense' AND x.fiscal_year IN (2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "research_and_development_expense_usd"
+    ],
+    "rows": [
+     [
+      "AAPL",
+      2024,
+      31370000000
+     ],
+     [
+      "AAPL",
+      2025,
+      34550000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 56.5,
+  "tokens": 15025,
+  "cost_usd": 0.002995,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q036",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Microsoft's operating cash flow was $136,162,000,000 in fiscal 2025 and $182,935,000,000 in fiscal 2026 [sql2], representing an increase of 34.35%.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS operating_cash_flow_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'MSFT' AND x.concept = 'NetCashProvidedByUsedInOperatingActivities' AND x.fiscal_year IN (2025, 2026) AND x.unit = 'USD' ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "operating_cash_flow_usd"
+    ],
+    "rows": [
+     [
+      "MSFT",
+      2025,
+      136162000000
+     ],
+     [
+      "MSFT",
+      2026,
+      182935000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 93.51,
+  "tokens": 14573,
+  "cost_usd": 0.00289,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q037",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Alphabet's net income grew by **$32,052,000,000** (or **32.01%**), increasing from **$100,118,000,000** in 2024 to **$132,170,000,000** in 2025 [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'GOOGL' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year IN (2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "GOOGL",
+      2024,
+      100118000000
+     ],
+     [
+      "GOOGL",
+      2025,
+      132170000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 128.17,
+  "tokens": 15016,
+  "cost_usd": 0.002953,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q038",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon's total assets increased from $624,894,000,000 (2024) to $818,042,000,000 (2025) [sql2], an increase of $193,148,000,000 or 30.91%.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS total_assets_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AMZN' AND x.concept = 'Assets' AND x.fiscal_year IN (2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "total_assets_usd"
+    ],
+    "rows": [
+     [
+      "AMZN",
+      2024,
+      624894000000
+     ],
+     [
+      "AMZN",
+      2025,
+      818042000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 32.39,
+  "tokens": 15495,
+  "cost_usd": 0.003024,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q039",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "ExxonMobil's total revenues decreased from $349,585,000,000 in 2024 to $332,238,000,000 in 2025 [sql2], a decline of $17,347,000,000 or approximately 4.96%.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS revenue_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'XOM' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') AND x.fiscal_year IN (2024, 2025) AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd"
+    ],
+    "rows": [
+     [
+      "XOM",
+      2024,
+      349585000000
+     ],
+     [
+      "XOM",
+      2025,
+      332238000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 53.13,
+  "tokens": 15342,
+  "cost_usd": 0.003127,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q040",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Yes, JPMorgan Chase spent more on share repurchases in 2025 than in 2024. \n\nIn 2025, JPMorgan Chase's payments for repurchase of common stock were $31,591,000,000, compared to $18,830,000,000 in 2024 [sql2], an increase of $12,761,000,000.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS share_repurchases_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'JPM' AND x.concept = 'PaymentsForRepurchaseOfCommonStock' AND x.fiscal_year IN (2024, 2025) AND x.unit = 'USD' ORDER BY x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "share_repurchases_usd"
+    ],
+    "rows": [
+     [
+      "JPM",
+      2024,
+      18830000000
+     ],
+     [
+      "JPM",
+      2025,
+      31591000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 51.88,
+  "tokens": 14658,
+  "cost_usd": 0.002914,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": false,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q041",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple's full-time equivalent headcount increased from approximately **164,000** employees as of September 28, 2024 [c6], to approximately **166,000** employees as of September 27, 2025 [c1]. \n\nThis represents an increase of **2,000** employees (or approximately **1.22%**).",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c6",
+    "chunk_id": 166,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 6,
+    "accession": "0000320193-24-000123",
+    "label": "AAPL FY2024 10-K, Item 1, p.6"
+   },
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 11,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 6,
+    "accession": "0000320193-25-000079",
+    "label": "AAPL FY2025 10-K, Item 1, p.6"
+   }
+  ],
+  "tools": [
+   "filing_search",
+   "filing_search",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 46.53,
+  "tokens": 17300,
+  "cost_usd": 0.001805,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately provides the headcount figures and the increase for both fiscal years as stated in the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q042",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA\u2019s employee count grew by **6,000 employees** (or approximately **16.67%**) from fiscal 2025 to fiscal 2026. \n\n* **Fiscal 2025:** Approximately **36,000** employees [c6].\n* **Fiscal 2026:** Approximately **42,000** employees [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c6",
+    "chunk_id": 2956,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 11,
+    "accession": "0001045810-25-000023",
+    "label": "NVDA FY2025 10-K, Item 1, p.11"
+   },
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2697,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 1",
+    "page": 11,
+    "accession": "0001045810-26-000021",
+    "label": "NVDA FY2026 10-K, Item 1, p.11"
+   }
+  ],
+  "tools": [
+   "filing_search",
+   "filing_search",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 60.36,
+  "tokens": 19958,
+  "cost_usd": 0.002066,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately states the employee growth, numbers for both fiscal years, and percentage increase, matching the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q043",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Meta's global workforce changed as follows from the end of 2023 to the end of 2025:\n\n* **December 31, 2023:** 67,317 employees [c6]\n* **December 31, 2025:** 78,865 employees [c11]\n\nThis represents an increase of **11,548 employees** (or approximately **17.15%**).",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c6",
+    "chunk_id": 6177,
+    "ticker": "META",
+    "company": "Meta Platforms, Inc.",
+    "fiscal_year": 2023,
+    "section": "Item 1",
+    "page": 12,
+    "accession": "0001326801-24-000012",
+    "label": "META FY2023 10-K, Item 1, p.12"
+   },
+   {
+    "type": "filing",
+    "id": "c11",
+    "chunk_id": 3467,
+    "ticker": "META",
+    "company": "Meta Platforms, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 9,
+    "accession": "0001628280-26-003942",
+    "label": "META FY2025 10-K, Item 1, p.9"
+   }
+  ],
+  "tools": [
+   "filing_search",
+   "filing_search",
+   "filing_search",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 35.55,
+  "tokens": 21339,
+  "cost_usd": 0.002231,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately provides the headcount numbers for both 2023 and 2025 and calculates the correct absolute and percentage increase.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q044",
+  "type": "cross_year",
+  "status": "answered",
+  "reason": null,
+  "answer": "Yes, Amazon's employee count rose between 2024 and 2025. \n\nAs of December 31, 2024, Amazon employed approximately **1,556,000** full-time and part-time employees [c6]. By December 31, 2025, the number increased to approximately **1,576,000** full-time and part-time employees [c1]. \n\nThis represents an increase of **20,000** employees.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c6",
+    "chunk_id": 2229,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2024,
+    "section": "Item 1",
+    "page": 4,
+    "accession": "0001018724-25-000004",
+    "label": "AMZN FY2024 10-K, Item 1, p.4"
+   },
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2007,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 4,
+    "accession": "0001018724-26-000004",
+    "label": "AMZN FY2025 10-K, Item 1, p.4"
+   }
+  ],
+  "tools": [
+   "filing_search",
+   "filing_search",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 4,
+  "latency_s": 35.35,
+  "tokens": 14914,
+  "cost_usd": 0.001571,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "judge",
+  "judge_reason": "The candidate accurately states that the employee count rose by 20,000, matching both the numbers and the conclusion in the reference answer.",
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q045",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "In fiscal 2026, NVIDIA's R&D expense was **8.57%** of revenue [sql2]. \n\n* **R&D Expense:** $18,497,000,000 [sql2]\n* **Revenue:** $215,938,000,000 [sql2]",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x_rev.fiscal_year, max(x_rev.value) AS revenue_exact_usd, max(x_rd.value) AS research_and_development_exact_usd FROM companies c JOIN xbrl_facts x_rev ON x_rev.company_id = c.id JOIN xbrl_facts x_rd ON x_rd.company_id = c.id AND x_rd.fiscal_year = x_rev.fiscal_year WHERE c.ticker = 'NVDA' AND x_rev.fiscal_year = 2026 AND x_rev.unit = 'USD' AND x_rd.unit = 'USD' AND x_rev.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') AND x_rd.concept = 'ResearchAndDevelopmentExpense' GROUP BY c.ticker, x_rev.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_exact_usd",
+     "research_and_development_exact_usd"
+    ],
+    "rows": [
+     [
+      "NVDA",
+      2026,
+      215938000000,
+      18497000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 107.74,
+  "tokens": 15433,
+  "cost_usd": 0.003571,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q046",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "In fiscal year 2025, Meta spent **28.55%** of its revenue on research and development [sql2]. \n\nMeta reported research and development expenses of 57,372,000,000 USD and total revenues of 200,966,000,000 USD [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(CASE WHEN x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax') THEN x.value END) AS revenue_usd, max(CASE WHEN x.concept = 'ResearchAndDevelopmentExpense' THEN x.value END) AS research_and_development_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'META' AND x.fiscal_year = 2025 AND x.unit = 'USD' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'ResearchAndDevelopmentExpense') GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd",
+     "research_and_development_usd"
+    ],
+    "rows": [
+     [
+      "META",
+      2025,
+      200966000000,
+      57372000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 46.64,
+  "tokens": 15071,
+  "cost_usd": 0.003336,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q047",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Microsoft's operating margin for fiscal 2026 was **46.78%** [sql2]. \n\nThis is calculated from an operating income of $155,237,000,000 and total revenue of $331,839,000,000 [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(CASE WHEN x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') THEN x.value END) AS revenue_usd, max(CASE WHEN x.concept = 'OperatingIncomeLoss' THEN x.value END) AS operating_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'MSFT' AND x.fiscal_year = 2026 AND x.unit = 'USD' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet', 'OperatingIncomeLoss') GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd",
+     "operating_income_usd"
+    ],
+    "rows": [
+     [
+      "MSFT",
+      2026,
+      331839000000,
+      155237000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 83.15,
+  "tokens": 15313,
+  "cost_usd": 0.003495,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q048",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon's operating margin in 2025 was **11.16%** [sql2]. \n\nThis is based on an operating income of 79,975,000,000 USD and total revenue of 716,924,000,000 USD for fiscal year 2025 [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(CASE WHEN x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') THEN x.value END) AS total_revenue_usd, max(CASE WHEN x.concept = 'OperatingIncomeLoss' THEN x.value END) AS operating_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AMZN' AND x.fiscal_year = 2025 AND x.unit = 'USD' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet', 'OperatingIncomeLoss') GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "total_revenue_usd",
+     "operating_income_usd"
+    ],
+    "rows": [
+     [
+      "AMZN",
+      2025,
+      716924000000,
+      79975000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 89.23,
+  "tokens": 15099,
+  "cost_usd": 0.003376,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q049",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple returned **80.98%** of its fiscal 2025 net income through share repurchases.\n\n- **Net Income (FY 2025):** $112,010,000,000 [sql1]\n- **Payments for Repurchase of Common Stock (FY 2025):** $90,711,000,000 [sql3]",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AAPL' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2025 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "AAPL",
+      2025,
+      112010000000
+     ]
+    ],
+    "truncated": false
+   },
+   {
+    "type": "sql",
+    "id": "sql3",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS share_repurchases_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AAPL' AND x.concept = 'PaymentsForRepurchaseOfCommonStock' AND x.fiscal_year = 2025 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "share_repurchases_usd"
+    ],
+    "rows": [
+     [
+      "AAPL",
+      2025,
+      90711000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 56.18,
+  "tokens": 18143,
+  "cost_usd": 0.003769,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q050",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Alphabet's share repurchases of $45,709,000,000 were **27.7506936307395%** of its operating cash flow of $164,713,000,000 in fiscal year 2025 [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.concept, x.value AS amount_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'GOOGL' AND x.fiscal_year = 2025 AND x.unit = 'USD' AND x.concept IN ('PaymentsForRepurchaseOfCommonStock', 'NetCashProvidedByUsedInOperatingActivities') LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "concept",
+     "amount_usd"
+    ],
+    "rows": [
+     [
+      "GOOGL",
+      2025,
+      "NetCashProvidedByUsedInOperatingActivities",
+      164713000000
+     ],
+     [
+      "GOOGL",
+      2025,
+      "PaymentsForRepurchaseOfCommonStock",
+      45709000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 73.86,
+  "tokens": 12661,
+  "cost_usd": 0.002813,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q051",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "In fiscal 2026, Microsoft's research and development spend was $35,562,000,000 and its revenue was $331,839,000,000, representing **10.72%** of revenue [sql2].",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(CASE WHEN x.concept = 'ResearchAndDevelopmentExpense' THEN x.value END) AS research_and_development_usd, max(CASE WHEN x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax') THEN x.value END) AS revenue_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'MSFT' AND x.fiscal_year = 2026 AND x.unit = 'USD' AND x.concept IN ('ResearchAndDevelopmentExpense', 'Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax') GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "research_and_development_usd",
+     "revenue_usd"
+    ],
+    "rows": [
+     [
+      "MSFT",
+      2026,
+      35562000000,
+      331839000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 57.36,
+  "tokens": 15002,
+  "cost_usd": 0.003308,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q052",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "GOOGL earned more than AAPL in 2025 by $20.16 billion [sql1, sql2].\n\nIn fiscal year 2025, Alphabet Inc. (GOOGL) reported a net income of $132.17 billion [sql2], while Apple Inc. (AAPL) reported a net income of $112.01 billion [sql1].",
+  "flags": [
+   "citation_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AAPL' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2025 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "AAPL",
+      2025,
+      112010000000
+     ]
+    ],
+    "truncated": false
+   },
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'GOOGL' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2025 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "GOOGL",
+      2025,
+      132170000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 4,
+  "latency_s": 28.32,
+  "tokens": 10627,
+  "cost_usd": 0.002292,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q053",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "In 2025, **JPMorgan Chase & Co. (JPM)** earned more than **Exxon Mobil Corporation (XOM)** by **$28.204 billion** [sql1, sql2].\n\n* **JPMorgan Chase & Co. (JPM)** net income: $57.048 billion [sql2]\n* **Exxon Mobil Corporation (XOM)** net income: $28.844 billion [sql1]",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'XOM' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2025 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "XOM",
+      2025,
+      28844000000
+     ]
+    ],
+    "truncated": false
+   },
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'JPM' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2025 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "JPM",
+      2025,
+      57048000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 26.09,
+  "tokens": 8797,
+  "cost_usd": 0.002112,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q054",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA had the higher operating margin in fiscal 2026 compared to Amazon in 2025 [sql3, sql4].\n\n* **NVIDIA (Fiscal 2026):** Operating income of $130,387,000,000 on revenue of $215,938,000,000 [sql3], resulting in an operating margin of **60.4%**.\n* **Amazon (2025):** Operating income of $79,975,000,000 on revenue of $716,924,000,000 [sql4], resulting in an operating margin of **11.2%**.",
+  "flags": [
+   "number_repair_attempted"
+  ],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql3",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(CASE WHEN x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') THEN x.value END) AS revenue_usd, max(CASE WHEN x.concept = 'OperatingIncomeLoss' THEN x.value END) AS operating_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'NVDA' AND x.fiscal_year = 2026 AND x.unit = 'USD' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet', 'OperatingIncomeLoss') GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd",
+     "operating_income_usd"
+    ],
+    "rows": [
+     [
+      "NVDA",
+      2026,
+      215938000000,
+      130387000000
+     ]
+    ],
+    "truncated": false
+   },
+   {
+    "type": "sql",
+    "id": "sql4",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(CASE WHEN x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') THEN x.value END) AS revenue_usd, max(CASE WHEN x.concept = 'OperatingIncomeLoss' THEN x.value END) AS operating_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'AMZN' AND x.fiscal_year = 2025 AND x.unit = 'USD' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet', 'OperatingIncomeLoss') GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd",
+     "operating_income_usd"
+    ],
+    "rows": [
+     [
+      "AMZN",
+      2025,
+      716924000000,
+      79975000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "financial_sql",
+   "calculator",
+   "calculator",
+   "financial_sql",
+   "financial_sql",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 6,
+  "latency_s": 107.25,
+  "tokens": 22447,
+  "cost_usd": 0.005945,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok",
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": false,
+  "citation_hit": null,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q055",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple generated approximately **$2.51 million** ($2,506,994) in net sales per full-time equivalent employee in fiscal 2025. \n\nThis is based on total net sales of **$416.16 billion** [$sql1] and approximately **166,000** full-time equivalent employees as of September 27, 2025 [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 11,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 6,
+    "accession": "0000320193-25-000079",
+    "label": "AAPL FY2025 10-K, Item 1, p.6"
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "filing_search",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 44.84,
+  "tokens": 9494,
+  "cost_usd": 0.001673,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": true,
+  "faithful": false,
+  "unsupported": [
+   "Apple generated approximately **$2.51 million** ($2,506,994) in net sales per full-time equivalent employee in fiscal 2025.",
+   "This is based on total net sales of **$416.16 billion** [$sql1]"
+  ]
+ },
+ {
+  "id": "q056",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA's fiscal 2026 revenue per employee was approximately **$5,141,381** (or about **$5.14 million**). \n\nThis is calculated using NVIDIA's fiscal year 2026 revenue of **$215,938,000,000** ($215.938 billion) [sql1, sql2] and approximately **42,000** employees as of the end of fiscal year 2026 [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS revenue_usd, 'CANNOT_ANSWER: Number of employees is not available in xbrl_facts' AS employee_note FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'NVDA' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') AND x.fiscal_year = 2026 AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_usd",
+     "employee_note"
+    ],
+    "rows": [
+     [
+      "NVDA",
+      2026,
+      215938000000,
+      "CANNOT_ANSWER: Number of employees is not available in xbrl_facts"
+     ]
+    ],
+    "truncated": false
+   },
+   {
+    "type": "sql",
+    "id": "sql2",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) / 1e9 AS revenue_billions_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'NVDA' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax', 'RevenueFromContractWithCustomerIncludingAssessedTax', 'SalesRevenueNet') AND x.fiscal_year = 2026 AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_billions_usd"
+    ],
+    "rows": [
+     [
+      "NVDA",
+      2026,
+      215.938
+     ]
+    ],
+    "truncated": false
+   },
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2697,
+    "ticker": "NVDA",
+    "company": "NVIDIA Corporation",
+    "fiscal_year": 2026,
+    "section": "Item 1",
+    "page": 11,
+    "accession": "0001045810-26-000021",
+    "label": "NVDA FY2026 10-K, Item 1, p.11"
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "filing_search",
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 38.31,
+  "tokens": 17932,
+  "cost_usd": 0.003325,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q057",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Meta's 2025 revenue per employee was **$2,548,227.98** [sql1, c1].\n\nThis is calculated from a fiscal year 2025 revenue of $200.966 billion [sql1] and 78,865 employees as of December 31, 2025 [c1].",
+  "flags": [
+   "number_repair_attempted",
+   "ungrounded_numbers"
+  ],
+  "ungrounded": [
+   "$200.966 billion",
+   "200966000000"
+  ],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) / 1e9 AS revenue_billions_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'META' AND x.concept IN ('Revenues', 'RevenueFromContractWithCustomerExcludingAssessedTax') AND x.fiscal_year = 2025 AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "revenue_billions_usd"
+    ],
+    "rows": [
+     [
+      "META",
+      2025,
+      200.966
+     ]
+    ],
+    "truncated": false
+   },
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 3467,
+    "ticker": "META",
+    "company": "Meta Platforms, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 1",
+    "page": 9,
+    "accession": "0001628280-26-003942",
+    "label": "META FY2025 10-K, Item 1, p.9"
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "filing_search",
+   "calculator",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 32.98,
+  "tokens": 16978,
+  "cost_usd": 0.002478,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": true,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q058",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Amazon reports **three** segments: North America, International, and AWS [c1]. \n\nAmazon's total operating income in 2025 was **79,975 million** [c2].",
+  "flags": [
+   "number_repair_attempted",
+   "ungrounded_numbers"
+  ],
+  "ungrounded": [
+   "79,975 million"
+  ],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 2201,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 8",
+    "page": 67,
+    "accession": "0001018724-26-000004",
+    "label": "AMZN FY2025 10-K, Item 8, p.67"
+   },
+   {
+    "type": "filing",
+    "id": "c2",
+    "chunk_id": 2203,
+    "ticker": "AMZN",
+    "company": "Amazon.com, Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 8",
+    "page": 68,
+    "accession": "0001018724-26-000004",
+    "label": "AMZN FY2025 10-K, Item 8, p.68"
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "filing_search",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true
+  ],
+  "n_steps": 4,
+  "latency_s": 36.79,
+  "tokens": 16702,
+  "cost_usd": 0.003007,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok",
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q059",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "NVIDIA's $974 million dividend payment in fiscal 2026 represented approximately **0.81%** (or 0.811%) of its net income of $120.067 billion for the same fiscal year [sql1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, x.value AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'NVDA' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2026 AND x.unit = 'USD' LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "NVDA",
+      2026,
+      120067000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 16.81,
+  "tokens": 6417,
+  "cost_usd": 0.001257,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q060",
+  "type": "multi_hop",
+  "status": "answered",
+  "reason": null,
+  "answer": "Alphabet's net income per employee for fiscal year 2025 was **$692,642.28**. \n\nThis is calculated by dividing Alphabet's net income of $132,170,000,000 [sql1] by the 190,820 employees at the end of the year.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "sql",
+    "id": "sql1",
+    "label": "Reported XBRL financial data",
+    "sql": "SELECT c.ticker, x.fiscal_year, max(x.value) AS net_income_usd FROM xbrl_facts x JOIN companies c ON c.id = x.company_id WHERE c.ticker = 'GOOGL' AND x.concept = 'NetIncomeLoss' AND x.fiscal_year = 2025 AND x.unit = 'USD' GROUP BY c.ticker, x.fiscal_year LIMIT 50",
+    "columns": [
+     "ticker",
+     "fiscal_year",
+     "net_income_usd"
+    ],
+    "rows": [
+     [
+      "GOOGL",
+      2025,
+      132170000000
+     ]
+    ],
+    "truncated": false
+   }
+  ],
+  "tools": [
+   "financial_sql",
+   "calculator"
+  ],
+  "tool_ok": [
+   true,
+   true
+  ],
+  "n_steps": 3,
+  "latency_s": 18.38,
+  "tokens": 6489,
+  "cost_usd": 0.001326,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [
+   "ok"
+  ],
+  "answerable": true,
+  "refused": false,
+  "correct": true,
+  "correct_by": "numbers",
+  "correct_values": true,
+  "citation_hit": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q061",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Tesla is not among the covered companies in the database.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 6.75,
+  "tokens": 1290,
+  "cost_usd": 0.000135,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q062",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Apple's fiscal year 2027 revenue is a future projection not available in the 10-K filings.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 5.65,
+  "tokens": 1308,
+  "cost_usd": 0.000141,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q063",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "I cannot provide investment advice or recommendations on whether to buy NVIDIA stock.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 0.86,
+  "tokens": 1287,
+  "cost_usd": 0.000135,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q064",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Microsoft's 10-K filings incorporate executive compensation details by reference to its Proxy Statement rather than disclosing the CEO's total compensation directly within the 10-K.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [
+   "filing_search",
+   "filing_search",
+   "filing_search",
+   "filing_search"
+  ],
+  "tool_ok": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "n_steps": 5,
+  "latency_s": 12.21,
+  "tokens": 9337,
+  "cost_usd": 0.001004,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q065",
+  "type": "unanswerable",
+  "status": "answered",
+  "reason": null,
+  "answer": "Apple does not report unit sales numbers (the number of individual units sold) for iPhones in its annual 10-K filings. \n\nHowever, Apple reported iPhone net sales of $209,586 million for fiscal year 2025 [c1].",
+  "flags": [
+   "number_repair_attempted",
+   "ungrounded_numbers"
+  ],
+  "ungrounded": [
+   "$209,586 million"
+  ],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 83,
+    "ticker": "AAPL",
+    "company": "Apple Inc.",
+    "fiscal_year": 2025,
+    "section": "Item 7",
+    "page": 24,
+    "accession": "0000320193-25-000079",
+    "label": "AAPL FY2025 10-K, Item 7, p.24"
+   }
+  ],
+  "tools": [
+   "filing_search",
+   "financial_sql"
+  ],
+  "tool_ok": [
+   true,
+   false
+  ],
+  "n_steps": 4,
+  "latency_s": 24.21,
+  "tokens": 15111,
+  "cost_usd": 0.001989,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q066",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Stock prices and real-time market data are not contained in the 10-K filings covered by FinRAG.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 6.74,
+  "tokens": 1300,
+  "cost_usd": 0.00014,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q067",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Walmart is not one of the covered companies in our database (coverage includes AAPL, AMZN, GOOGL, JPM, META, MSFT, NVDA, and XOM).",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 0.75,
+  "tokens": 1315,
+  "cost_usd": 0.000146,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q068",
+  "type": "unanswerable",
+  "status": "answered",
+  "reason": null,
+  "answer": "ExxonMobil does not disclose a specific price prediction or price forecast for crude oil in 2030 in its 10-K filings [c1]. Its disclosures discuss demand and supply trends\u2014such as noting that without continued investment, oil supplies by 2030 would fall significantly short of demand\u2014rather than projecting dollar prices [c1].",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [
+   {
+    "type": "filing",
+    "id": "c1",
+    "chunk_id": 5275,
+    "ticker": "XOM",
+    "company": "Exxon Mobil Corporation",
+    "fiscal_year": 2025,
+    "section": "Item 7",
+    "page": 43,
+    "accession": "0000034088-26-000045",
+    "label": "XOM FY2025 10-K, Item 7, p.43"
+   }
+  ],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 15.5,
+  "tokens": 5141,
+  "cost_usd": 0.000547,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": false,
+  "faithful": true,
+  "unsupported": []
+ },
+ {
+  "id": "q069",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Goldman Sachs is not among the covered companies in our filings database.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 1.93,
+  "tokens": 1288,
+  "cost_usd": 0.000135,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q070",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Amazon's 10-K filings are only covered for FY2023 through FY2025.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 2.18,
+  "tokens": 1305,
+  "cost_usd": 0.00014,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q071",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Future acquisitions cannot be predicted or found in past 10-K filings.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [],
+  "tool_ok": [],
+  "n_steps": 1,
+  "latency_s": 0.97,
+  "tokens": 1290,
+  "cost_usd": 0.000136,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ },
+ {
+  "id": "q072",
+  "type": "unanswerable",
+  "status": "refused",
+  "reason": "model_declined",
+  "answer": "Alphabet's 10-K filings do not disclose the personal home address of its chief financial officer.",
+  "flags": [],
+  "ungrounded": [],
+  "citations": [],
+  "tools": [
+   "filing_search"
+  ],
+  "tool_ok": [
+   true
+  ],
+  "n_steps": 2,
+  "latency_s": 22.7,
+  "tokens": 4754,
+  "cost_usd": 0.000495,
+  "models": [
+   "gemini-3.5-flash-lite"
+  ],
+  "sql_verdicts": [],
+  "answerable": false,
+  "refused": true
+ }
+]
