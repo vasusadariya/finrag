@@ -51,3 +51,18 @@ new users", so the plan's assumption was stale. Probed with a tool-calling reque
 the chain. Free-tier availability is visibly flaky (503s, 60 s hangs), so latency targets must be reported
 honestly. Gemini 3 function calling requires the model's raw parts ("thought signatures") to be replayed on the next
 turn; `Message.raw` carries them and a live test verifies the round trip.
+
+## Text-to-SQL accuracy (step 3.4)
+
+Live test (`backend/tests/test_text_to_sql_live.py`): 15 questions, each with an independent reference SQL run
+directly on the database; the model's guard-validated SQL result must contain the same numbers/names.
+`gemini-3.5-flash`, temperature 0, schema + glossary + 3 worked examples in the prompt.
+
+- First run, original checker: **13/15**. Every case succeeded on the first attempt (no retries needed).
+- The two failures ("list the tickers", "which fiscal years do we have for NVIDIA") were correct answers that
+  added descriptive columns; the checker compared the whole cell set and penalised the extras. The checker was
+  then changed (post hoc, after seeing the result) to require the expected names plus one row per expected name.
+  Re-scored on the same cached answers: **15/15**.
+- The pass threshold in the test is 12/15. Treat the honest figure as "13/15 as first scored, 15/15 after a
+  fairer checker" on 15 easy-to-medium single-fact and ratio questions. Harder questions (multi-company
+  comparisons over several concepts, fiscal-year edge cases such as MSFT/NVDA) are covered by the full eval in 3.13.
