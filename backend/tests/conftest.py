@@ -1,11 +1,15 @@
 """Shared fixtures: a throwaway, migrated Postgres database (skipped when none is reachable)."""
 
 import os
+import shutil
+import socket
+import subprocess
 import time
 from collections.abc import Iterator
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
 
+import httpx
 import psycopg
 import pytest
 from psycopg.rows import dict_row
@@ -44,3 +48,41 @@ def db_url() -> Iterator[str]:
 def conn(db_url: str) -> Iterator[psycopg.Connection[dict[str, object]]]:
     with psycopg.connect(db_url, row_factory=dict_row) as c:
         yield c
+
+
+GUARD_DIR = Path(__file__).resolve().parents[2] / "sqlguard-go"
+POLICY = Path(__file__).resolve().parents[2] / "db" / "sql_policy.json"
+
+
+@pytest.fixture(scope="session")
+def guard_url(tmp_path_factory: pytest.TempPathFactory) -> Iterator[str]:
+    """A running instance of the real Go SQL guard (built once per test session)."""
+    if shutil.which("go") is None:
+        pytest.skip("go toolchain not available")
+    binary = tmp_path_factory.mktemp("guard") / "sqlguard"
+    build = subprocess.run(
+        ["go", "build", "-o", str(binary), "./cmd/sqlguard"],
+        cwd=GUARD_DIR, capture_output=True, text=True, timeout=600,
+    )  # fmt: skip
+    assert build.returncode == 0, build.stderr
+    with socket.socket() as sock:
+        sock.bind(("127.0.0.1", 0))
+        port = int(sock.getsockname()[1])
+    proc = subprocess.Popen(
+        [str(binary), "-addr", f"127.0.0.1:{port}", "-policy", str(POLICY)],
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+    )  # fmt: skip
+    url = f"http://127.0.0.1:{port}"
+    try:
+        for _ in range(100):
+            try:
+                if httpx.get(f"{url}/healthz", timeout=1).status_code == 200:
+                    break
+            except httpx.HTTPError:
+                time.sleep(0.1)
+        else:
+            raise AssertionError("guard did not start")
+        yield url
+    finally:
+        proc.terminate()
+        proc.wait(timeout=10)

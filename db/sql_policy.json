@@ -44,51 +44,139 @@
     }
   },
   "functions": [
-    "sum", "avg", "min", "max", "count",
-    "round", "abs", "lower", "upper",
-    "lag", "lead", "row_number", "rank"
+    "sum",
+    "avg",
+    "min",
+    "max",
+    "count",
+    "round",
+    "abs",
+    "lower",
+    "upper",
+    "lag",
+    "lead",
+    "row_number",
+    "rank"
   ],
   "glossary": {
     "notes": [
       "Values are in full units: USD 416161000000 means $416.161 billion. Divide by 1e9 for billions.",
       "Always filter unit = 'USD' for dollar amounts (EPS uses 'USD/shares').",
-      "fiscal_year is the company's own label: AAPL/AMZN/GOOGL/META/JPM/XOM FY2023-2025; MSFT FY2024-2026 (years end June); NVDA FY2024-2026 (years end January).",
+      "fiscal_year is the company's own label. xbrl_facts holds about five fiscal years of history (to FY2025; MSFT and NVDA to FY2026); the filings table holds only the last three 10-Ks per company. MSFT years end in June, NVDA years end in January.",
       "Companies use different tags for the same idea; use the concept lists below and COALESCE or filter with IN (...).",
-      "Join companies with xbrl_facts on companies.id = xbrl_facts.company_id and filter by companies.ticker."
+      "Join companies with xbrl_facts on companies.id = xbrl_facts.company_id and filter by companies.ticker.",
+      "A company can report the same measure under more than one tag in the same year (e.g. GOOGL revenue). When you filter concept with IN (...), use max(value) grouped by company and fiscal_year so the amount is not counted twice.",
+      "For 'latest' or 'most recent' fiscal year questions use the greatest fiscal_year that exists for that company; years differ between companies."
     ],
     "concepts": {
-      "revenue": ["Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "RevenueFromContractWithCustomerIncludingAssessedTax", "SalesRevenueNet"],
-      "cost of revenue": ["CostOfRevenue", "CostOfGoodsAndServicesSold"],
-      "gross profit": ["GrossProfit"],
-      "research and development": ["ResearchAndDevelopmentExpense"],
-      "operating expenses": ["OperatingExpenses", "SellingGeneralAndAdministrativeExpense", "SellingAndMarketingExpense", "GeneralAndAdministrativeExpense"],
-      "operating income": ["OperatingIncomeLoss"],
-      "net income": ["NetIncomeLoss"],
-      "pre-tax income": ["IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"],
-      "income tax": ["IncomeTaxExpenseBenefit"],
-      "interest expense": ["InterestExpense"],
-      "earnings per share": ["EarningsPerShareBasic", "EarningsPerShareDiluted"],
-      "shares outstanding (weighted)": ["WeightedAverageNumberOfDilutedSharesOutstanding", "WeightedAverageNumberOfSharesOutstandingBasic"],
-      "total assets": ["Assets"],
-      "current assets": ["AssetsCurrent"],
-      "total liabilities": ["Liabilities"],
-      "current liabilities": ["LiabilitiesCurrent"],
-      "shareholders equity": ["StockholdersEquity"],
-      "cash": ["CashAndCashEquivalentsAtCarryingValue"],
-      "long-term debt": ["LongTermDebt", "LongTermDebtNoncurrent"],
-      "operating cash flow": ["NetCashProvidedByUsedInOperatingActivities"],
-      "investing cash flow": ["NetCashProvidedByUsedInInvestingActivities"],
-      "financing cash flow": ["NetCashProvidedByUsedInFinancingActivities"],
-      "capital expenditure": ["PaymentsToAcquirePropertyPlantAndEquipment"],
-      "share repurchases": ["PaymentsForRepurchaseOfCommonStock"],
-      "dividends paid": ["PaymentsOfDividends", "PaymentsOfDividendsCommonStock"],
-      "depreciation and amortization": ["DepreciationDepletionAndAmortization"],
-      "stock-based compensation": ["ShareBasedCompensation"],
-      "bank interest income": ["InterestAndDividendIncomeOperating", "InterestIncomeExpenseNet"],
-      "bank noninterest income": ["NoninterestIncome"],
-      "bank noninterest expense": ["NoninterestExpense"],
-      "bank provision for credit losses": ["ProvisionForLoanLeaseAndOtherLosses"],
-      "bank deposits": ["Deposits"]
+      "revenue": [
+        "Revenues",
+        "RevenueFromContractWithCustomerExcludingAssessedTax",
+        "RevenueFromContractWithCustomerIncludingAssessedTax",
+        "SalesRevenueNet"
+      ],
+      "cost of revenue": [
+        "CostOfRevenue",
+        "CostOfGoodsAndServicesSold"
+      ],
+      "gross profit": [
+        "GrossProfit"
+      ],
+      "research and development": [
+        "ResearchAndDevelopmentExpense"
+      ],
+      "operating expenses": [
+        "OperatingExpenses",
+        "SellingGeneralAndAdministrativeExpense",
+        "SellingAndMarketingExpense",
+        "GeneralAndAdministrativeExpense"
+      ],
+      "operating income": [
+        "OperatingIncomeLoss"
+      ],
+      "net income": [
+        "NetIncomeLoss"
+      ],
+      "pre-tax income": [
+        "IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest"
+      ],
+      "income tax": [
+        "IncomeTaxExpenseBenefit"
+      ],
+      "interest expense": [
+        "InterestExpense"
+      ],
+      "earnings per share": [
+        "EarningsPerShareBasic",
+        "EarningsPerShareDiluted"
+      ],
+      "shares outstanding (weighted)": [
+        "WeightedAverageNumberOfDilutedSharesOutstanding",
+        "WeightedAverageNumberOfSharesOutstandingBasic"
+      ],
+      "total assets": [
+        "Assets"
+      ],
+      "current assets": [
+        "AssetsCurrent"
+      ],
+      "total liabilities": [
+        "Liabilities"
+      ],
+      "current liabilities": [
+        "LiabilitiesCurrent"
+      ],
+      "shareholders equity": [
+        "StockholdersEquity"
+      ],
+      "cash": [
+        "CashAndCashEquivalentsAtCarryingValue"
+      ],
+      "long-term debt": [
+        "LongTermDebt",
+        "LongTermDebtNoncurrent"
+      ],
+      "operating cash flow": [
+        "NetCashProvidedByUsedInOperatingActivities"
+      ],
+      "investing cash flow": [
+        "NetCashProvidedByUsedInInvestingActivities"
+      ],
+      "financing cash flow": [
+        "NetCashProvidedByUsedInFinancingActivities"
+      ],
+      "capital expenditure": [
+        "PaymentsToAcquirePropertyPlantAndEquipment"
+      ],
+      "share repurchases": [
+        "PaymentsForRepurchaseOfCommonStock"
+      ],
+      "dividends paid": [
+        "PaymentsOfDividends",
+        "PaymentsOfDividendsCommonStock"
+      ],
+      "depreciation and amortization": [
+        "DepreciationDepletionAndAmortization"
+      ],
+      "stock-based compensation": [
+        "ShareBasedCompensation"
+      ],
+      "bank interest income": [
+        "InterestAndDividendIncomeOperating",
+        "InterestIncomeExpenseNet"
+      ],
+      "bank noninterest income": [
+        "NoninterestIncome"
+      ],
+      "bank noninterest expense": [
+        "NoninterestExpense"
+      ],
+      "bank provision for credit losses": [
+        "ProvisionForLoanLeaseAndOtherLosses"
+      ],
+      "bank deposits": [
+        "Deposits"
+      ]
     }
   }
 }

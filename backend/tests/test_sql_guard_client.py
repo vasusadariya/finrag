@@ -1,56 +1,12 @@
 """Contract tests: the Python client vs the real Go guard binary and vs misbehaving fakes."""
 
-import shutil
-import socket
-import subprocess
-import time
 from collections.abc import Iterator
-from pathlib import Path
 
 import httpx
 import pytest
 
 from app.tools.sql_guard import GuardResult, SqlGuardClient, SqlGuardUnavailableError
-from app.tools.sql_policy import POLICY_PATH, load_policy
-
-GUARD_DIR = Path(__file__).resolve().parents[2] / "sqlguard-go"
-
-
-def free_port() -> int:
-    with socket.socket() as s:
-        s.bind(("127.0.0.1", 0))
-        return int(s.getsockname()[1])
-
-
-@pytest.fixture(scope="module")
-def guard_url(tmp_path_factory: pytest.TempPathFactory) -> Iterator[str]:
-    if shutil.which("go") is None:
-        pytest.skip("go toolchain not available")
-    binary = tmp_path_factory.mktemp("guard") / "sqlguard"
-    build = subprocess.run(
-        ["go", "build", "-o", str(binary), "./cmd/sqlguard"],
-        cwd=GUARD_DIR, capture_output=True, text=True, timeout=600,
-    )  # fmt: skip
-    assert build.returncode == 0, build.stderr
-    port = free_port()
-    proc = subprocess.Popen(
-        [str(binary), "-addr", f"127.0.0.1:{port}", "-policy", str(POLICY_PATH)],
-        stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-    )  # fmt: skip
-    url = f"http://127.0.0.1:{port}"
-    try:
-        for _ in range(100):
-            try:
-                if httpx.get(f"{url}/healthz", timeout=1).status_code == 200:
-                    break
-            except httpx.HTTPError:
-                time.sleep(0.1)
-        else:
-            raise AssertionError("guard did not start")
-        yield url
-    finally:
-        proc.terminate()
-        proc.wait(timeout=10)
+from app.tools.sql_policy import load_policy
 
 
 @pytest.fixture
@@ -102,6 +58,14 @@ def test_python_and_go_agree_on_the_policy(client: SqlGuardClient) -> None:
         if fn in {"lag", "lead", "row_number", "rank"}:
             continue  # window functions need OVER; covered by the Go corpus
         assert client.validate(f"SELECT {fn}(value) FROM xbrl_facts").ok, fn
+
+
+def free_port() -> int:
+    import socket
+
+    with socket.socket() as sock:
+        sock.bind(("127.0.0.1", 0))
+        return int(sock.getsockname()[1])
 
 
 def test_fail_closed_when_guard_is_down() -> None:
