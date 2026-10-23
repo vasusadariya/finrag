@@ -1,4 +1,4 @@
-.PHONY: ingest-report migrate-up db-local db-local-stop lint lint-py lint-go test test-py test-go fmt up down ingest eval
+.PHONY: eval-validate eval-retrieval eval-diagnostics ingest-report migrate-up db-local db-local-stop lint lint-py lint-go test test-py test-go fmt up down ingest eval
 
 lint: lint-py lint-go
 
@@ -47,3 +47,13 @@ db-local-stop:
 
 migrate-up:
 	@set -a; [ -f .env ] && . ./.env; set +a; cd ingest-go && go run -tags "postgres file" github.com/golang-migrate/migrate/v4/cmd/migrate -path ../db/migrations -database "$${DATABASE_URL:-postgres://finrag:finrag@localhost:5432/finrag?sslmode=disable}" up
+
+# Eval dataset checks and retrieval ablation (needs the ingested database and `uv sync --group embed`).
+eval-validate:
+	cd backend && uv run python -m app.evalkit.validate --db
+
+eval-retrieval:
+	cd backend && uv run python -m app.evalkit.retrieval_eval
+
+eval-diagnostics:
+	cd backend && uv run python -m app.evalkit.retrieval_diagnostics
