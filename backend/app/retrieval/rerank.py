@@ -61,14 +61,20 @@ class RerankingRetriever:
     """
 
     def __init__(
-        self, base: Retriever, reranker: Reranker, pool: int = 30, timeout_s: float = 20.0
+        self,
+        base: Retriever,
+        reranker: Reranker,
+        pool: int = 30,
+        timeout_s: float = 20.0,
+        executor: ThreadPoolExecutor | None = None,
     ) -> None:
         if pool < 1:
             raise ValueError("pool must be >= 1")
         self._base, self._reranker, self._pool, self._timeout = base, reranker, pool, timeout_s
         # one worker: a hung model call must not spawn unbounded threads;
         # later calls queue behind it and time out into the fallback
-        self._executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="rerank")
+        # (pass a shared executor when building one retriever per request)
+        self._executor = executor or ThreadPoolExecutor(max_workers=1, thread_name_prefix="rerank")
 
     def search(self, query: str, filters: Filters | None = None, k: int = 5) -> list[Hit]:
         if k < 1:

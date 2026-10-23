@@ -4,6 +4,7 @@ import logging
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
+from typing import Any
 
 from app.agent.citations import (
     build_citations,
@@ -23,6 +24,8 @@ from app.llm.types import LLMClient, LLMError, LLMResponse, Message, ToolCall, T
 from app.tools.builder import ToolBundle
 
 log = logging.getLogger(__name__)
+
+EventSink = Callable[[dict[str, Any]], None]
 
 FORCE_ANSWER = (
     "You have reached the limit on tool use. Do not call any more tools. Answer now using only "
@@ -91,10 +94,12 @@ class Agent:
         self._system = system_prompt(coverage)
         self._cfg = config or AgentConfig()
 
-    def run(self, question: str) -> AgentResult:
+    def run(self, question: str, on_event: EventSink | None = None) -> AgentResult:
+        """Answer one question; ``on_event`` receives tool-call progress events as they happen."""
         started = time.perf_counter()
         bundle = self._make_tools()
         result = AgentResult(question=question, status="error", answer="")
+        result.on_event = on_event
         messages = [Message("user", question)]
         final: str | None = None
         try:
@@ -233,6 +238,9 @@ class Agent:
             step.tools.append(
                 ToolTrace(call.id, call.name, call.args, ok, summary, time.perf_counter() - t0)
             )
+            if result.on_event is not None:
+                event = {"type": "tool", "name": call.name, "args": call.args, "ok": ok}
+                result.on_event(event | {"summary": summary})
             results.append(res)
         return Message("tool", tool_results=results)
 

@@ -1,5 +1,6 @@
 """Agent run records: per-step trace and the final result."""
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
@@ -44,3 +45,4 @@ class AgentResult:
     sql_usage: Usage = field(default_factory=Usage)  # tokens spent inside the financial_sql tool
     ungrounded: list[str] = field(default_factory=list)  # numbers no tool output supports
     evidence: list[dict[str, Any]] = field(default_factory=list, repr=False)  # raw tool outputs
+    on_event: Callable[[dict[str, Any]], None] | None = field(default=None, repr=False)

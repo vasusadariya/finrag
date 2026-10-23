@@ -19,6 +19,10 @@ class Settings(BaseSettings):
 
     log_level: str = "INFO"
 
+    sqlguard_url: str = "http://127.0.0.1:8081"
+    max_concurrent_runs: int = Field(default=2, ge=1)  # agent runs in flight (CPU-bound models)
+    cors_origins: str = "http://localhost:3000"  # comma separated
+
     # LLM model chains (comma separated; first = preferred, the rest are fallbacks when it is
     # overloaded). The plan's gemini-2.5-* models are closed to new users; these were verified
     # to support tool calling.
