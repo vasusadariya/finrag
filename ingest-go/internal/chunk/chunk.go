@@ -12,12 +12,13 @@ import (
 )
 
 // Sizes are in characters; tokens are estimated at 4 chars/token (no tokenizer dependency).
+// Defaults target the 512-token window of the local bge embedding model.
 const (
 	CharsPerToken = 4
-	MaxChars      = 3200 // about 800 tokens, hard ceiling including overlap
-	OverlapChars  = 400  // about 100 tokens carried into the next chunk
-	unitMaxChars  = 600  // blocks longer than this are split at sentence boundaries
-	minTailChars  = 800  // a shorter final piece is merged into its predecessor
+	MaxChars      = 1500 // hard ceiling per chunk, including overlap
+	OverlapChars  = 250  // carried into the next chunk
+	unitMaxChars  = 400  // blocks longer than this are split at sentence boundaries
+	minTailChars  = 500  // a shorter final piece is merged into its predecessor
 )
 
 // Filing identifies the document being chunked.

@@ -10,6 +10,16 @@ dependencies = [
 
 [dependency-groups]
 dev = ["pytest>=8", "mypy>=1.10", "ruff>=0.5"]
+# Local embedding model + reranker (CPU torch). Install with: uv sync --group embed
+embed = ["torch", "sentence-transformers>=3"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [tool.setuptools.packages.find]
 include = ["app*"]
@@ -24,6 +34,10 @@ select = ["E", "F", "I", "B", "UP"]
 [tool.mypy]
 strict = true
 files = ["app", "tests"]
+
+[[tool.mypy.overrides]]
+module = ["sentence_transformers", "sentence_transformers.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

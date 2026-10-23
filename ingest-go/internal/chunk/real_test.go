@@ -58,7 +58,7 @@ func TestRealFilingsChunking(t *testing.T) {
 			}
 			sort.Ints(sizes)
 			t.Logf("%s: %d chunks, size p10=%d p50=%d p90=%d, sections=%v", tk, len(chunks), sizes[len(sizes)/10], sizes[len(sizes)/2], sizes[len(sizes)*9/10], sections)
-			if p50 := sizes[len(sizes)/2]; p50 < 1200 {
+			if p50 := sizes[len(sizes)/2]; p50 < 900 {
 				t.Errorf("median chunk too small: %d chars", p50)
 			}
 		})

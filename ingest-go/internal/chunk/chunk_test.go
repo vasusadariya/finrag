@@ -49,7 +49,7 @@ func TestSizeBoundsAndNoCrossingSections(t *testing.T) {
 		if len(c.Text) > MaxChars {
 			t.Errorf("chunk %d has %d chars > %d", i, len(c.Text), MaxChars)
 		}
-		if i < len(chunks)-1 && chunks[i+1].Section == c.Section && len(c.Text) < 2000 {
+		if i < len(chunks)-1 && chunks[i+1].Section == c.Section && len(c.Text) < MaxChars/2 {
 			t.Errorf("non-final chunk %d too small: %d chars", i, len(c.Text))
 		}
 		// Item 1 sentences are numbered < 1000, Item 1A sentences >= 1000

@@ -19,7 +19,7 @@ CREATE TABLE filings (
 );
 CREATE INDEX filings_company_fy_idx ON filings (company_id, fiscal_year);
 
--- Embedding dimension is 768 (Gemini output dimensionality); revisit in step 1.8 if local bge (384) is chosen.
+-- Embedding dimension is 768 (local bge-base-en-v1.5, see docs/decisions.md).
 CREATE TABLE chunks (
     id            bigserial PRIMARY KEY,
     filing_id     integer NOT NULL REFERENCES filings(id) ON DELETE CASCADE,
