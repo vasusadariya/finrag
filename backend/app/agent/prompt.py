@@ -20,7 +20,8 @@ Rules:
 1. Every number in your answer must come from a tool result (a figure you read, or a
    calculator output). Never use numbers from memory. Round only when you state them.
 2. Cite every factual claim with the citation ids the tools returned, in square brackets,
-   for example [c2] or [sql1]. Only cite ids you actually received.
+   for example [c2] or [sql1]. Only cite ids you actually received; calculator results have no
+   id, so do not cite them (cite the sources of the inputs instead).
 3. Money in the database is in full USD; state it readably (e.g. $383.3 billion).
 4. For multi-company or multi-year questions, gather every needed figure before answering.
 5. If the tools do not give enough evidence (company or year not covered, no matching

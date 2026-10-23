@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 from app.core.config import get_settings
+from app.core.logging import configure_logging
 from app.db.conn import connect
 from app.evalkit.agent_eval import dump_details, render_report, run_questions, score, summarize
 from app.evalkit.dataset import load_questions
@@ -28,6 +29,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     settings = get_settings()
+    configure_logging(settings.log_level)
     questions = load_questions(QUESTIONS)
     if args.ids:
         wanted = set(args.ids.split(","))
