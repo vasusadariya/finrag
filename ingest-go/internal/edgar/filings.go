@@ -50,26 +50,28 @@ func (e Endpoints) DocumentURL(f Filing) string {
 	return fmt.Sprintf("%s/%s/%s/%s", e.Archives, strings.TrimLeft(f.CIK, "0"), acc, f.PrimaryDoc)
 }
 
+// filingArrays is the column-oriented filing list used both in a submissions "recent" block and,
+// at top level, in the older paged files.
+type filingArrays struct {
+	Accession  []string `json:"accessionNumber"`
+	FilingDate []string `json:"filingDate"`
+	ReportDate []string `json:"reportDate"`
+	Form       []string `json:"form"`
+	PrimaryDoc []string `json:"primaryDocument"`
+}
+
 type submissions struct {
 	CIK     string `json:"cik"`
 	Filings struct {
-		Recent struct {
-			Accession  []string `json:"accessionNumber"`
-			FilingDate []string `json:"filingDate"`
-			ReportDate []string `json:"reportDate"`
-			Form       []string `json:"form"`
-			PrimaryDoc []string `json:"primaryDocument"`
-		} `json:"recent"`
+		Recent filingArrays `json:"recent"`
+		Files  []struct {
+			Name     string `json:"name"`
+			FilingTo string `json:"filingTo"`
+		} `json:"files"`
 	} `json:"filings"`
 }
 
-// ParseTenKs extracts 10-K filings (not amendments) from a submissions JSON body, newest first.
-func ParseTenKs(body []byte) ([]Filing, error) {
-	var s submissions
-	if err := json.Unmarshal(body, &s); err != nil {
-		return nil, fmt.Errorf("edgar: parse submissions: %w", err)
-	}
-	r := s.Filings.Recent
+func tenKsFrom(cik string, r filingArrays) ([]Filing, error) {
 	n := len(r.Accession)
 	if len(r.FilingDate) != n || len(r.ReportDate) != n || len(r.Form) != n || len(r.PrimaryDoc) != n {
 		return nil, fmt.Errorf("edgar: submissions arrays have inconsistent lengths")
@@ -85,7 +87,7 @@ func ParseTenKs(body []byte) ([]Filing, error) {
 			return nil, fmt.Errorf("edgar: bad date in filing %s", r.Accession[i])
 		}
 		out = append(out, Filing{
-			CIK:        strings.TrimLeft(s.CIK, "0"),
+			CIK:        strings.TrimLeft(cik, "0"),
 			Accession:  r.Accession[i],
 			Form:       r.Form[i],
 			FiledAt:    filed,
@@ -94,7 +96,25 @@ func ParseTenKs(body []byte) ([]Filing, error) {
 			FiscalYear: fiscalYear(period),
 		})
 	}
-	sort.Slice(out, func(i, j int) bool { return out[i].PeriodEnd.After(out[j].PeriodEnd) })
+	return out, nil
+}
+
+func sortNewestFirst(fs []Filing) {
+	sort.Slice(fs, func(i, j int) bool { return fs[i].PeriodEnd.After(fs[j].PeriodEnd) })
+}
+
+// ParseTenKs extracts 10-K filings (not amendments) from the "recent" block of a submissions JSON body,
+// newest first. Companies with heavy filing activity have older 10-Ks in paged files; see LatestTenKs.
+func ParseTenKs(body []byte) ([]Filing, error) {
+	var s submissions
+	if err := json.Unmarshal(body, &s); err != nil {
+		return nil, fmt.Errorf("edgar: parse submissions: %w", err)
+	}
+	out, err := tenKsFrom(s.CIK, s.Filings.Recent)
+	if err != nil {
+		return nil, err
+	}
+	sortNewestFirst(out)
 	return out, nil
 }
 
@@ -107,16 +127,43 @@ func fiscalYear(period time.Time) int {
 	return period.Year()
 }
 
-// LatestTenKs returns up to n most recent 10-Ks for a company.
+// LatestTenKs returns up to n most recent 10-Ks for a company. The submissions "recent" block only covers
+// roughly the last thousand filings, so for companies that file a lot (insider forms, 8-Ks) the older paged
+// files are fetched, newest first, until n 10-Ks are found.
 func (c *Client) LatestTenKs(ctx context.Context, ep Endpoints, cik string, n int) ([]Filing, error) {
 	body, err := c.Get(ctx, ep.SubmissionsURL(cik))
 	if err != nil {
 		return nil, err
 	}
-	all, err := ParseTenKs(body)
+	var s submissions
+	if err := json.Unmarshal(body, &s); err != nil {
+		return nil, fmt.Errorf("edgar: parse submissions: %w", err)
+	}
+	all, err := tenKsFrom(s.CIK, s.Filings.Recent)
 	if err != nil {
 		return nil, err
 	}
+	files := s.Filings.Files
+	sort.Slice(files, func(i, j int) bool { return files[i].FilingTo > files[j].FilingTo })
+	for _, f := range files {
+		if len(all) >= n {
+			break
+		}
+		page, err := c.Get(ctx, ep.Data+"/submissions/"+f.Name)
+		if err != nil {
+			return nil, fmt.Errorf("edgar: older submissions page %s: %w", f.Name, err)
+		}
+		var arrays filingArrays
+		if err := json.Unmarshal(page, &arrays); err != nil {
+			return nil, fmt.Errorf("edgar: parse %s: %w", f.Name, err)
+		}
+		older, err := tenKsFrom(s.CIK, arrays)
+		if err != nil {
+			return nil, err
+		}
+		all = append(all, older...)
+	}
+	sortNewestFirst(all)
 	if len(all) > n {
 		all = all[:n]
 	}

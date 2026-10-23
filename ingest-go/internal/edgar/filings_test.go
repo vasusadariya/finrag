@@ -93,3 +93,49 @@ func TestLive(t *testing.T) {
 		t.Fatalf("document fetch: len=%d err=%v", len(doc), err)
 	}
 }
+
+func TestLatestTenKsFollowsOlderPagesOnlyAsNeeded(t *testing.T) {
+	recent := `{"cik":"0000000099","filings":{"recent":{
+"accessionNumber":["A-25","Q-25"],"filingDate":["2025-11-01","2025-08-01"],"reportDate":["2025-09-27","2025-06-28"],
+"form":["10-K","8-K"],"primaryDocument":["a25.htm","q.htm"]},
+"files":[{"name":"p1.json","filingTo":"2024-12-31"},{"name":"p2.json","filingTo":"2022-12-31"},{"name":"p3.json","filingTo":"2019-12-31"}]}}`
+	page := func(acc, filed, period, doc string) string {
+		return `{"accessionNumber":["` + acc + `","X"],"filingDate":["` + filed + `","2000-01-01"],"reportDate":["` + period +
+			`","2000-01-01"],"form":["10-K","4"],"primaryDocument":["` + doc + `","x.htm"]}`
+	}
+	fetched := map[string]int{}
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fetched[r.URL.Path]++
+		switch r.URL.Path {
+		case "/submissions/CIK0000000099.json":
+			_, _ = w.Write([]byte(recent))
+		case "/submissions/p1.json":
+			_, _ = w.Write([]byte(page("A-24", "2024-11-01", "2024-09-28", "a24.htm")))
+		case "/submissions/p2.json":
+			_, _ = w.Write([]byte(page("A-23", "2023-11-01", "2023-09-30", "a23.htm")))
+		default:
+			w.WriteHeader(404)
+		}
+	}))
+	defer srv.Close()
+	c := newClient(t, Config{})
+	fs, err := c.LatestTenKs(context.Background(), Endpoints{Data: srv.URL}, "99", 3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(fs) != 3 || fs[0].Accession != "A-25" || fs[1].Accession != "A-24" || fs[2].Accession != "A-23" {
+		t.Fatalf("filings: %+v", fs)
+	}
+	if fetched["/submissions/p3.json"] != 0 {
+		t.Error("fetched an older page than needed")
+	}
+	// asking for only one must not touch any paged file
+	fetched = map[string]int{}
+	if fs, err := c.LatestTenKs(context.Background(), Endpoints{Data: srv.URL}, "99", 1); err != nil || len(fs) != 1 || fetched["/submissions/p1.json"] != 0 {
+		t.Errorf("n=1: %v %v %v", fs, err, fetched)
+	}
+	// a page that cannot be fetched (p3 is a 404 here) must surface as an error, never a silent truncation
+	if _, err := c.LatestTenKs(context.Background(), Endpoints{Data: srv.URL}, "99", 10); err == nil {
+		t.Error("expected an error when an older page is unavailable")
+	}
+}
