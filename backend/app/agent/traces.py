@@ -35,6 +35,7 @@ def trace_payload(result: AgentResult) -> dict[str, Any]:
         "citations": result.citations,
         "ungrounded": result.ungrounded,
         "sql_tokens": asdict(result.sql_usage),
+        "sql_verdicts": result.sql_verdicts,
     }
     return {"steps": steps, "meta": meta}
 

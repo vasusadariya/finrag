@@ -113,6 +113,7 @@ class Agent:
             final = self._verify_numbers(final, question, messages, bundle, result)
             self.finish(final, bundle, result)
         result.sql_usage = bundle.sql.usage
+        result.sql_verdicts = list(bundle.sql.verdicts)
         result.latency_s = time.perf_counter() - started
         return result
 

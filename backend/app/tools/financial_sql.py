@@ -14,6 +14,7 @@ class FinancialSql:
         self._t2s = t2s
         self.queries: dict[str, dict[str, Any]] = {}
         self.usage = Usage()
+        self.verdicts: list[str] = []  # per generated SQL attempt: ok | rejected | error | timeout
 
     def __call__(self, args: dict[str, Any]) -> dict[str, Any]:
         question = args["question"]
@@ -23,6 +24,7 @@ class FinancialSql:
             ans = self._t2s.run(question)
         except SqlGuardUnavailableError:
             return {"ok": False, "error": "the SQL safety service is unavailable; try again later"}
+        self.verdicts += [a.verdict for a in ans.attempts]
         self.usage = Usage(
             self.usage.prompt_tokens + ans.usage.prompt_tokens,
             self.usage.output_tokens + ans.usage.output_tokens,

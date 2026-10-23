@@ -43,6 +43,7 @@ class AgentResult:
     latency_s: float = 0.0
     models: list[str] = field(default_factory=list)
     sql_usage: Usage = field(default_factory=Usage)  # tokens spent inside the financial_sql tool
+    sql_verdicts: list[str] = field(default_factory=list)  # guard/DB outcome per SQL attempt
     ungrounded: list[str] = field(default_factory=list)  # numbers no tool output supports
     evidence: list[dict[str, Any]] = field(default_factory=list, repr=False)  # raw tool outputs
     on_event: Callable[[dict[str, Any]], None] | None = field(default=None, repr=False)
