@@ -30,3 +30,24 @@ Jan 2026 -> 2026), not derived from the period-end date.
 ## Page numbers
 
 Chunks carry the physical page index (CSS page-break count), not the printed page number.
+
+## LLM models (step 3.4 prerequisite)
+
+The plan named `gemini-2.5-flash` / `gemini-2.5-flash-lite`. In Oct 2026 both return 404 "no longer available to
+new users", so the plan's assumption was stale. Probed with a tool-calling request on the free tier:
+
+| model | result |
+|---|---|
+| gemini-3.5-flash | works, tool call, ~100 thinking tokens |
+| gemini-3.5-flash-lite | works, tool call |
+| gemini-3.1-flash-lite | works, tool call |
+| gemini-3.7-flash | 503 "high demand" |
+| gemini-3.8-flash, gemini-flash-latest | timed out after 60 s |
+| gemini-2.5-flash, -flash-lite | 404 closed to new users |
+
+**Decision:** main = `gemini-3.5-flash`, cheap/judge = `gemini-3.5-flash-lite`, both falling back to
+`gemini-3.1-flash-lite`. Versions are pinned (not `*-latest`, which moves and timed out). Chains are settings
+(`LLM_MAIN_MODELS`, `LLM_CHEAP_MODELS`). The client retries 429/5xx with exponential backoff, then falls through
+the chain. Free-tier availability is visibly flaky (503s, 60 s hangs), so latency targets must be reported
+honestly. Gemini 3 function calling requires the model's raw parts ("thought signatures") to be replayed on the next
+turn; `Message.raw` carries them and a live test verifies the round trip.
