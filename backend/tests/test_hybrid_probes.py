@@ -24,6 +24,7 @@ from app.db.conn import connect  # noqa: E402
 from app.embed.local_bge import LocalBgeProvider  # noqa: E402
 from app.retrieval.hybrid import HybridRetriever  # noqa: E402
 from app.retrieval.keyword import KeywordRetriever  # noqa: E402
+from app.retrieval.rerank import LocalBgeReranker, RerankingRetriever  # noqa: E402
 from app.retrieval.types import Filters, Hit  # noqa: E402
 from app.retrieval.vector import VectorRetriever  # noqa: E402
 
@@ -90,7 +91,13 @@ def retrievers() -> Iterator[dict[str, object]]:
         if not {"AAPL", "MSFT", "NVDA", "AMZN", "GOOGL"} <= have:
             pytest.skip("database not populated (run make ingest)")
         v, kw = VectorRetriever(conn, LocalBgeProvider()), KeywordRetriever(conn)
-        yield {"vector": v, "keyword": kw, "hybrid": HybridRetriever(v, kw)}
+        hybrid = HybridRetriever(v, kw)
+        yield {
+            "vector": v,
+            "keyword": kw,
+            "hybrid": hybrid,
+            "reranked": RerankingRetriever(hybrid, LocalBgeReranker(), pool=30),
+        }
 
 
 POOL = 30
@@ -115,6 +122,7 @@ def test_hybrid_candidate_pool_beats_each_alone(retrievers: dict[str, object]) -
     pool, detail_pool = _score(retrievers, POOL)
     print("\nhit@5:\n" + "\n".join(detail5) + f"\n=> {at5} of {len(PROBES)}")
     print(f"\nrecall@{POOL}:\n" + "\n".join(detail_pool) + f"\n=> {pool} of {len(PROBES)}")
+    # the reranked variant (C) is reported above, not yet asserted
     assert pool["hybrid"] >= pool["vector"]
     assert pool["hybrid"] >= pool["keyword"]
     assert pool["hybrid"] > min(pool["vector"], pool["keyword"])
