@@ -50,6 +50,7 @@ class FilingSearch:
         self._retriever = retriever
         self.citations: dict[str, Citation] = {}
         self._by_chunk: dict[int, str] = {}
+        self.passages: dict[str, str] = {}  # citation id -> passage text (for the sources panel)
         self.last_hits: list[Hit] = []
 
     def _cite(self, hit: Hit) -> Citation:
@@ -58,6 +59,7 @@ class FilingSearch:
             cid = f"c{len(self.citations) + 1}"
             self._by_chunk[hit.chunk_id] = cid
             self.citations[cid] = citation_for(hit, len(self.citations) + 1)
+            self.passages[cid] = hit.content[:MAX_PASSAGE_CHARS]
         return self.citations[cid]
 
     def __call__(self, args: dict[str, Any]) -> dict[str, Any]:
@@ -85,7 +87,11 @@ class FilingSearch:
         return {"ok": True, "count": len(results), "results": results}
 
     def citation_dicts(self, ids: list[str]) -> list[dict[str, Any]]:
-        return [asdict(self.citations[i]) | {"label": self.citations[i].label} for i in ids]
+        return [
+            asdict(self.citations[i])
+            | {"label": self.citations[i].label, "text": self.passages.get(i, "")}
+            for i in ids
+        ]
 
 
 def normalize_section(raw: str) -> str:

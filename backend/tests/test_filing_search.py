@@ -77,6 +77,7 @@ def test_results_carry_stable_citations() -> None:
     assert [r["citation_id"] for r in again["results"]] == ["c1", "c2"]
     assert fs.citation_dicts(["c1"])[0]["accession"] == "0000320193-24-000123"
     assert fs.citation_dicts(["c1"])[0]["label"].startswith("AAPL FY2024")
+    assert fs.citation_dicts(["c1"])[0]["text"] == "passage 1"
 
 
 def test_k_capped_and_text_truncated() -> None:

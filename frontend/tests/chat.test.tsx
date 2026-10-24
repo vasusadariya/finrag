@@ -70,3 +70,32 @@ describe("Chat", () => {
     expect(api.streamChat).not.toHaveBeenCalled();
   });
 });
+
+describe("Sources panel", () => {
+  it("opens the SQL source with its rows, and a filing source with its passage", async () => {
+    const a = answer({
+      answer: "Risk exists [c1]. Revenue was $391.0 billion [sql1].",
+      citations: [
+        { type: "filing", id: "c1", chunk_id: 1, ticker: "AAPL", company: "Apple Inc.", fiscal_year: 2024,
+          section: "Item 1A", page: 9, accession: "0000320193-24-000123", label: "AAPL FY2024 10-K, Item 1A, p.9",
+          text: "Supply chain disruptions could harm us." },
+        { type: "sql", id: "sql1", label: "Reported XBRL financial data", sql: "SELECT value FROM xbrl_facts LIMIT 50",
+          columns: ["value"], rows: [[391035000000]], truncated: false },
+      ],
+    });
+    script([{ event: "answer", data: a }]);
+    const user = userEvent.setup();
+    render(<Chat />);
+    await user.type(screen.getByLabelText("Your question"), "Apple risks and revenue?");
+    await user.keyboard("{Enter}");
+    await user.click(await screen.findByRole("button", { name: "Source c1" }));
+    const panel = screen.getByRole("complementary", { name: "Sources" });
+    expect(panel).toHaveTextContent("Supply chain disruptions could harm us.");
+    expect(panel).toHaveTextContent("Item 1A");
+    await user.click(screen.getByRole("button", { name: "Source sql1" }));
+    expect(panel).toHaveTextContent("SELECT value FROM xbrl_facts LIMIT 50");
+    expect(panel).toHaveTextContent("391,035,000,000");
+    await user.click(screen.getByRole("button", { name: "Close sources" }));
+    expect(screen.queryByRole("complementary")).not.toBeInTheDocument();
+  });
+});

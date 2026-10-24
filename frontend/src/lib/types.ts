@@ -13,6 +13,7 @@ export interface FilingCitation {
   page: number | null;
   accession: string;
   label: string;
+  text: string;
 }
 
 export interface SqlCitation {

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useChat } from "@/hooks/useChat";
 import { Composer } from "./Composer";
 import { Message } from "./Message";
+import { SourcesPanel } from "./SourcesPanel";
 
 export const EXAMPLES = [
   "How did Apple's R&D spending change from fiscal 2024 to 2025?",
@@ -21,8 +22,11 @@ export function Chat() {
     bottom.current?.scrollIntoView?.({ behavior: "smooth", block: "end" });
   }, [turns]);
 
+  const open = selected ? turns.find((t) => t.id === selected.turnId)?.answer?.citations : undefined;
+
   return (
-    <div className="shell">
+    <div className={open ? "layout with-panel" : "layout"}>
+      <div className="shell">
       <header className="top">
         <h1>FinRAG</h1>
         <span className="tag">Cited answers from SEC 10-K filings · AAPL MSFT GOOGL AMZN NVDA META JPM XOM</span>
@@ -51,7 +55,15 @@ export function Chat() {
         <div ref={bottom} />
       </main>
       <Composer busy={busy} onSend={send} onStop={stop} />
-      {selected && <span hidden data-selected={`${selected.turnId}:${selected.id}`} />}
+      </div>
+      {open && selected && (
+        <SourcesPanel
+          citations={open}
+          selectedId={selected.id}
+          onSelect={(id) => setSelected({ turnId: selected.turnId, id })}
+          onClose={() => setSelected(null)}
+        />
+      )}
     </div>
   );
 }
