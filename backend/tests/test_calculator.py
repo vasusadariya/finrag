@@ -1,4 +1,5 @@
 import math
+from typing import Any
 
 import pytest
 
@@ -81,6 +82,12 @@ def test_results_are_always_finite_floats() -> None:
 
 def test_tool_never_raises_and_shapes_output() -> None:
     assert calculator_tool({"expression": "2+2"}) == {"ok": True, "expression": "2+2", "result": 4}
-    for bad in [{}, {"expression": 5}, {"expression": None}, {"expression": "1/0"}]:
+    bad_args: list[dict[str, Any]] = [
+        {},
+        {"expression": 5},
+        {"expression": None},
+        {"expression": "1/0"},
+    ]
+    for bad in bad_args:
         out = calculator_tool(bad)
         assert out["ok"] is False and isinstance(out["error"], str)
