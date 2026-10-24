@@ -1,0 +1,13 @@
+region           = "us-ashburn-1"
+tenancy_ocid     = "ocid1.tenancy.oc1..xxxx"
+user_ocid        = "ocid1.user.oc1..xxxx"
+fingerprint      = "aa:bb:..."
+private_key_path = "~/.oci/oci_api_key.pem"
+compartment_ocid = "ocid1.tenancy.oc1..xxxx"
+ssh_public_key   = "ssh-ed25519 AAAA... you@laptop"
+ssh_allowed_cidr = "203.0.113.7/32"
+domain           = "finrag.duckdns.org"
+alert_email      = "you@example.com"
+edgar_user_agent = "FinRAG research you@example.com"
+# Secrets: pass with TF_VAR_* environment variables instead of writing them here:
+#   TF_VAR_gemini_api_key  TF_VAR_demo_api_key  TF_VAR_postgres_password  TF_VAR_ro_password

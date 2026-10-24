@@ -99,3 +99,14 @@ questions vs wrongly-refused answerable ones).
 - Next.js rewrites are compiled at build time, so the API address is a Docker build arg.
 - Building images behind this sandbox's TLS-inspecting proxy required injecting its CA and using
   `--network=host`; those are sandbox workarounds and are not in the Dockerfiles.
+
+## Hosting (4.6)
+
+AWS Free Tier's t2/t3.micro has 1 GB of RAM, too small for the embedding model plus the stack, so
+Terraform targets **Oracle Cloud Always Free (Ampere A1, 2 OCPU / 12 GB by default, $0)**. Terraform
+is validated (`terraform validate`, variable validation for SSH exposure) but **not applied**: it
+needs an OCI account. Caddy is validated with `caddy validate`. A $1 budget alert guards against
+accidentally adding paid resources. Secrets pass through cloud-init user data, so they are visible to
+anyone who can read the instance metadata; acceptable for a single-owner demo, not for a team.
+The A1 shape is arm64: `uv.lock` includes the aarch64 torch wheels, and every base image is multi-arch,
+but the arm64 image build itself is untested here.

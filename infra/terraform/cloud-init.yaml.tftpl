@@ -1,0 +1,20 @@
+#cloud-config
+package_update: true
+packages: [git, curl, ca-certificates]
+write_files:
+  - path: /opt/finrag.env
+    permissions: "0600"
+    content: |
+      DOMAIN=${domain}
+      GEMINI_API_KEY=${gemini_api_key}
+      DEMO_API_KEY=${demo_api_key}
+      POSTGRES_PASSWORD=${postgres_password}
+      FINRAG_RO_PASSWORD=${ro_password}
+      EDGAR_USER_AGENT=${edgar_user_agent}
+      RERANK_ENABLED=false
+runcmd:
+  - curl -fsSL https://get.docker.com | sh
+  - usermod -aG docker ubuntu
+  - git clone --depth 1 --branch ${repo_ref} ${repo_url} /opt/finrag
+  - cp /opt/finrag.env /opt/finrag/.env
+  - cd /opt/finrag && docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build

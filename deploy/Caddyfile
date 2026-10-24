@@ -1,0 +1,15 @@
+# Automatic HTTPS (Let's Encrypt) for {$DOMAIN}. Needs ports 80/443 reachable and DNS pointing here.
+{$DOMAIN} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+		-Server
+	}
+	# flush_interval -1: stream server-sent events immediately instead of buffering them
+	reverse_proxy web:3000 {
+		flush_interval -1
+	}
+}

@@ -1,0 +1,33 @@
+# Production overlay:  docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+# Adds Caddy (HTTPS) and stops publishing the web port: only 80/443 are reachable from outside.
+services:
+  caddy:
+    image: ${CADDY_IMAGE:-caddy:2}
+    depends_on:
+      web: { condition: service_healthy }
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN to the public host name}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    restart: unless-stopped
+
+  web:
+    ports: !reset []
+
+  db:
+    ports: !reset []
+    logging: &logs
+      driver: json-file
+      options: { max-size: "10m", max-file: "3" }
+
+  api:
+    logging: *logs
+  sqlguard:
+    logging: *logs
+
+volumes:
+  caddy-data:
