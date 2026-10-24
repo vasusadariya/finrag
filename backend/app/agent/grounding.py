@@ -38,6 +38,11 @@ class Num:
     value: float
     half: float  # half a unit in the last written digit, in the same units as value
     percent: bool
+    mantissa: float = (
+        0.0  # the digits as written, before any scale word ("$36.01 billion" -> 36.01)
+    )
+    scaled: bool = False  # a scale word (million, billion, ...) was applied
+    mantissa_half: float = 0.0  # half a unit in the last written digit of the mantissa
 
 
 def _parse_numbers(text: str) -> list[Num]:
@@ -51,7 +56,15 @@ def _parse_numbers(text: str) -> list[Num]:
         if m.group("sign"):
             value = -value
         out.append(
-            Num(m.group(0).strip(), value, 0.5 * 10**-decimals * scale, unit in {"%", "percent"})
+            Num(
+                m.group(0).strip(),
+                value,
+                0.5 * 10**-decimals * scale,
+                unit in {"%", "percent"},
+                mantissa=-float(digits) if m.group("sign") else float(digits),
+                scaled=scale != 1.0,
+                mantissa_half=0.5 * 10**-decimals,
+            )
         )
     return out
 
@@ -76,6 +89,13 @@ def _matches(n: Num, source: float) -> bool:
     for c in candidates:
         for s in (c, -c):
             if abs(n.value - s) <= n.half * (1 + 1e-9) + TOLERANCE_FLOOR * max(1.0, abs(s)):
+                return True
+    if n.scaled:
+        # a tool may already report in the unit the answer states ("36.01" for "$36.01 billion",
+        # or a table "in millions": 209,586 -> "$209,586 million")
+        half = n.mantissa_half
+        for s in (source, -source):
+            if abs(n.mantissa - s) <= half * (1 + 1e-9) + TOLERANCE_FLOOR * max(1.0, abs(s)):
                 return True
     return False
 

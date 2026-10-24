@@ -82,3 +82,12 @@ def test_calculator_inputs_must_be_grounded() -> None:
     assert find_ungrounded_inputs("pct_change(100, 150)", src) == []
     assert find_ungrounded_inputs("pct_of(100, 150) * 100 / 4", src) == []
     assert find_ungrounded_inputs("pct_change(100, 175)", src) == ["175"]
+
+
+def test_unit_scaled_tool_output_grounds_scaled_answer() -> None:
+    # SQL that divides by 1e9 returns 36.01; a filing table "in millions" holds 209586
+    src = source_numbers([{"rows": [[36.01, 33.68]]}, {"results": [{"text": "Net sales 209,586"}]}])
+    assert find_ungrounded("Net income fell from $36.01 billion to $33.68 billion.", src) == []
+    assert find_ungrounded("Net sales were $209,586 million.", src) == []
+    assert find_ungrounded("Net income was $36.5 billion.", src) == ["$36.5 billion"]
+    assert find_ungrounded("Net sales were $209,587 million.", src) == ["$209,587 million"]

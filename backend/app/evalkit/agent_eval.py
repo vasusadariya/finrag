@@ -46,6 +46,11 @@ def record_for(q: Question, r: AgentResult) -> dict[str, Any]:
         "cost_usd": round(run_cost(r), 6),
         "models": r.models,
         "sql_verdicts": r.sql_verdicts,
+        "calculations": [
+            {"expression": e["expression"], "result": e["result"]}
+            for e in r.evidence
+            if e.get("ok") and "expression" in e and "result" in e
+        ],
     }
 
 
@@ -181,6 +186,8 @@ def evidence_text(rec: dict[str, Any], texts: dict[int, str]) -> str:
             parts.append(f"[{c['id']}] {c['label']}: {texts.get(c['chunk_id'], '')[:1500]}")
         else:
             parts.append(f"[{c['id']}] SQL {c['sql']} -> columns {c['columns']} rows {c['rows']}")
+    for calc in rec.get("calculations", []):
+        parts.append(f"[calculator] {calc['expression']} = {calc['result']}")
     return "\n".join(parts) or "(no evidence)"
 
 
