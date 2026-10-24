@@ -1,5 +1,7 @@
 // The browser talks to /api/*; Next proxies it to the FastAPI service. This keeps one origin
 // (no CORS) and lets the proxy hold the API key in production (see hardening).
+// NOTE: evaluated at build time (rewrites are baked into the standalone output); the Dockerfile
+// sets it from a build arg.
 const apiInternal = process.env.API_INTERNAL_URL ?? "http://127.0.0.1:8000";
 
 /** @type {import('next').NextConfig} */

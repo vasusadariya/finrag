@@ -82,3 +82,20 @@ does not gate answers. Refusals are driven by evidence instead:
 
 Whether this refuses the right questions is measured in 3.13 (refusal rate on unanswerable
 questions vs wrongly-refused answerable ones).
+
+## Deployment shape (4.4)
+
+- Four images: `finrag-backend` (FastAPI, migration runner, Go ingest CLI), `finrag-sqlguard`
+  (Go + libpg_query, 129 MB), `finrag-web` (Next.js standalone, 269 MB), plus `pgvector/pgvector:pg16`.
+- Verified in a sandbox: all three images build; `docker compose up` brings db, migrate, sqlguard,
+  api and web up healthy; migrations apply (versions 1, 2); the read-only role password is set from
+  the environment; the web container proxies `/api/health` to the API. Not verified in the
+  container: a full `/chat` (needs the embedding model download and a Gemini key at runtime).
+- The reranker is **off by default in the stack** (`RERANK_ENABLED=false`): it adds about 8 s per
+  query on CPU and ~1.1 GB of RAM, and the retrieval ablation showed no measurable gain at k=5
+  (C 0.53 vs B 0.47 hit@5, n=30, within noise). The deployment host therefore needs roughly 3 GB
+  of RAM with the embedder only (the free AWS t2/t3.micro with 1 GB is too small; Oracle Always
+  Free Ampere A1 is the free option that fits).
+- Next.js rewrites are compiled at build time, so the API address is a Docker build arg.
+- Building images behind this sandbox's TLS-inspecting proxy required injecting its CA and using
+  `--network=host`; those are sandbox workarounds and are not in the Dockerfiles.

@@ -14,6 +14,7 @@ from app.llm.gemini import build_gemini
 from app.retrieval.hybrid import HybridRetriever
 from app.retrieval.keyword import KeywordRetriever
 from app.retrieval.rerank import LocalBgeReranker, RerankingRetriever
+from app.retrieval.types import Retriever
 from app.retrieval.vector import VectorRetriever
 from app.tools.builder import new_bundle
 from app.tools.sql_exec import SqlExecutor
@@ -50,7 +51,7 @@ class LiveService:
         self._s = settings
         self._llm = build_gemini(settings)
         self._embedder = LocalBgeProvider()
-        self._reranker = LocalBgeReranker()
+        self._reranker = LocalBgeReranker() if settings.rerank_enabled else None
         self._rerank_pool = ThreadPoolExecutor(max_workers=1, thread_name_prefix="rerank")
         self._guard = SqlGuardClient(settings.sqlguard_url)
         self._sql_exec = SqlExecutor(settings.database_url_ro)
@@ -59,11 +60,10 @@ class LiveService:
 
     def run(self, question: str, on_event: EventSink | None = None) -> AgentResult:
         with connect(self._s.database_url) as conn:
-            retriever = RerankingRetriever(
-                HybridRetriever(VectorRetriever(conn, self._embedder), KeywordRetriever(conn)),
-                self._reranker,
-                executor=self._rerank_pool,
-            )
+            hybrid = HybridRetriever(VectorRetriever(conn, self._embedder), KeywordRetriever(conn))
+            retriever: Retriever = hybrid
+            if self._reranker is not None:
+                retriever = RerankingRetriever(hybrid, self._reranker, executor=self._rerank_pool)
             t2s = TextToSql(self._llm, self._guard, self._sql_exec, self._policy)
             agent = Agent(self._llm, lambda: new_bundle(retriever, t2s), self._coverage)
             return agent.run(question, on_event)

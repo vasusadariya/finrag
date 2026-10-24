@@ -14,3 +14,4 @@ data/
 .terraform/
 ingest-go/testdata/filings/
 ingest-go/testdata/facts/
+sandbox-ca.crt

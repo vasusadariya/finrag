@@ -19,6 +19,9 @@ class Settings(BaseSettings):
 
     log_level: str = "INFO"
 
+    # Cross-encoder rerank adds ~8 s/query on CPU and ~1.1 GB of RAM for no measurable gain on our
+    # eval (docs/decisions.md); turn it off on small hosts. Hybrid (B) retrieval is used instead.
+    rerank_enabled: bool = True
     sqlguard_url: str = "http://127.0.0.1:8081"
     max_concurrent_runs: int = Field(default=2, ge=1)  # agent runs in flight (CPU-bound models)
     cors_origins: str = "http://localhost:3000"  # comma separated

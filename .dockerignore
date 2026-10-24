@@ -1,0 +1,14 @@
+.git
+.env
+.cache
+**/node_modules
+**/.next
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+frontend/test-results
+frontend/playwright-report
+ingest-go/testdata/filings
+eval/reports

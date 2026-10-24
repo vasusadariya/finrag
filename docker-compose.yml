@@ -1,12 +1,21 @@
+# Full stack:  cp .env.example .env  (set GEMINI_API_KEY, passwords)  &&  docker compose up -d --build
+# Behind a registry mirror (Docker Hub rate limits):
+#   REGISTRY=mirror.gcr.io/library/ DB_IMAGE=mirror.gcr.io/pgvector/pgvector:pg16 docker compose up -d --build
+# First start downloads the embedding model (~440 MB) into the models volume.
+name: finrag
+
+x-build-args: &build-args
+  REGISTRY: ${REGISTRY:-}
+
 services:
   db:
-    image: pgvector/pgvector:pg16
+    image: ${DB_IMAGE:-pgvector/pgvector:pg16}
     environment:
       POSTGRES_USER: finrag
-      POSTGRES_PASSWORD: finrag
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-finrag}
       POSTGRES_DB: finrag
     ports:
-      - "5432:5432"
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -15,5 +24,74 @@ services:
       timeout: 3s
       retries: 20
 
+  migrate:
+    build: { context: ., dockerfile: backend/Dockerfile, args: *build-args }
+    image: finrag-backend
+    command: ["python", "-m", "app.db.migrate", "--ro-password-env", "FINRAG_RO_PASSWORD"]
+    environment:
+      DATABASE_URL: postgresql://finrag:${POSTGRES_PASSWORD:-finrag}@db:5432/finrag
+      FINRAG_RO_PASSWORD: ${FINRAG_RO_PASSWORD:-finrag_ro}
+    depends_on:
+      db: { condition: service_healthy }
+    restart: "no"
+
+  sqlguard:
+    build: { context: ., dockerfile: sqlguard-go/Dockerfile, args: *build-args }
+    image: finrag-sqlguard
+    restart: unless-stopped
+
+  api:
+    image: finrag-backend
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      sqlguard: { condition: service_healthy }
+    environment:
+      DATABASE_URL: postgresql://finrag:${POSTGRES_PASSWORD:-finrag}@db:5432/finrag
+      DATABASE_URL_RO: postgresql://finrag_ro:${FINRAG_RO_PASSWORD:-finrag_ro}@db:5432/finrag
+      SQLGUARD_URL: http://sqlguard:8081
+      EDGAR_USER_AGENT: ${EDGAR_USER_AGENT:-FinRAG research contact@example.com}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      LLM_MAIN_MODELS: ${LLM_MAIN_MODELS:-gemini-3.5-flash,gemini-3.1-flash-lite}
+      LLM_CHEAP_MODELS: ${LLM_CHEAP_MODELS:-gemini-3.5-flash-lite,gemini-3.1-flash-lite}
+      RERANK_ENABLED: ${RERANK_ENABLED:-false}
+      MAX_CONCURRENT_RUNS: ${MAX_CONCURRENT_RUNS:-2}
+      CORS_ORIGINS: ""
+    volumes:
+      - models:/models
+    restart: unless-stopped
+
+  web:
+    build: { context: ./frontend, args: *build-args }
+    image: finrag-web
+    environment:
+      API_INTERNAL_URL: http://api:8000
+    depends_on:
+      api: { condition: service_healthy }
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    restart: unless-stopped
+
+  # One-off data load:  docker compose --profile ingest run --rm ingest
+  ingest:
+    image: finrag-backend
+    profiles: ["ingest"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    environment:
+      DATABASE_URL: postgresql://finrag:${POSTGRES_PASSWORD:-finrag}@db:5432/finrag
+      EDGAR_USER_AGENT: ${EDGAR_USER_AGENT:?set EDGAR_USER_AGENT (name + email) for SEC EDGAR}
+    command:
+      - finrag-ingest
+      - run
+      - --backend-dir=/app/backend
+      - --cache-dir=/app/cache/edgar
+      - --embed-cache=/app/cache/embeddings.sqlite
+    volumes:
+      - models:/models
+      - ingest-cache:/app/cache
+    restart: "no"
+
 volumes:
   pgdata:
+  models:
+  ingest-cache:
